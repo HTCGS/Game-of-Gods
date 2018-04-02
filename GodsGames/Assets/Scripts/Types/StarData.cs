@@ -159,7 +159,7 @@ namespace SpaceEngine
 
         public StarData Copy()
         {
-            StarData copyed = new StarData
+            StarData copy = new StarData
             {
                 Mass = new Range<float>(this.Mass.From, this.Mass.To),
                 Radius = new Range<float>(this.Radius.From, this.Radius.To),
@@ -167,9 +167,9 @@ namespace SpaceEngine
                 StarClass = this.StarClass,
                 EvolutionState = this.EvolutionState
             };
-            copyed.Mass.Value = this.Mass.Value;
-            copyed.Radius.Value = this.Radius.Value;
-            return copyed;
+            copy.Mass.Value = this.Mass.Value;
+            copy.Radius.Value = this.Radius.Value;
+            return copy;
         }
 
         public void Mutate()
@@ -179,7 +179,6 @@ namespace SpaceEngine
                 float mult = Random.Range(10f, 100f);
                 float num = Random.Range(0.1f, 2.5f);
                 this.Mass.Value = mult * num;
-                this.EvolutionState = StarEvolutionState.SubGiant;
             }
             else
             {

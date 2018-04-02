@@ -28,15 +28,15 @@ namespace SpaceEngine
                 }
                 else if (Star.StarClass == StarClass.M)
                 {
-                    //white dwarf  // светимость в 10 раз
-                    if (Random.Range(0f, 1f) < 0.5f)
+                    if (Star.Mass.Value < 0.4)
                     {
-                        evolvedStar.Radius.Value *= Random.Range(1.05f, 1.3f);
-                        evolvedStar.EvolutionState = StarEvolutionState.SubGiant;
+                        evolvedStar.Color.Value = new Color32(1, 1, 1, 1);
+                        evolvedStar.EvolutionState = StarEvolutionState.Dwarf;
                     }
                     else
                     {
-
+                        evolvedStar.Radius.Value *= Random.Range(1.2f, 2f);
+                        evolvedStar.EvolutionState = StarEvolutionState.SubGiant;
                     }
                 }
                 else
@@ -57,12 +57,14 @@ namespace SpaceEngine
             {
                 if (Star.Mass.Value <= 0.5)
                 {
-                    // white dwarf
-
+                    evolvedStar.Mass.Value *= Random.Range(0.8f, 0.9f);
+                    evolvedStar.Radius.Value = Random.Range(0.8f, 2.2f) / Random.Range(70, 110);
+                    evolvedStar.Color.Value = new Color32(1, 1, 1, 1);
+                    evolvedStar.EvolutionState = StarEvolutionState.Dwarf;
                 }
                 else if (Star.Mass.Value <= 10)
                 {
-                    if(Star.StarClass.IsOneOf(StarClass.O, StarClass.B))
+                    if (Star.StarClass.IsOneOf(StarClass.O, StarClass.B))
                     {
                         evolvedStar.Radius.Value = Random.Range(5f, 10f);
                         evolvedStar.EvolutionState = StarEvolutionState.Giant;
@@ -92,15 +94,32 @@ namespace SpaceEngine
                     }
                 }
             }
-            else if(Star.EvolutionState == StarEvolutionState.Giant)
+            else if (Star.EvolutionState == StarEvolutionState.Giant
+                || Star.EvolutionState == StarEvolutionState.SuperGiant
+                || Star.EvolutionState == StarEvolutionState.HyperGiant)
             {
-                
-            }
-            else if(Star.EvolutionState == StarEvolutionState.SuperGiant)
-            {
+                evolvedStar.Mass.Value *= Random.Range(0.5f, 0.8f);
 
+                if (evolvedStar.Mass.Value < 1.44)
+                {
+                    evolvedStar.Radius.Value = Random.Range(0.8f, 2.2f) / Random.Range(70, 110);
+                    evolvedStar.Color.Value = new Color32(1, 1, 1, 1);
+                    evolvedStar.EvolutionState = StarEvolutionState.Dwarf;
+                }
+                else if (evolvedStar.Mass.Value < 3)
+                {
+                    evolvedStar.Radius.Value = (Random.Range(10f, 20f) * 1000f) / SpaceMath.SolRadius;
+                    evolvedStar.Color.Value = new Color32(0, 255, 255, 1);
+                    evolvedStar.EvolutionState = StarEvolutionState.Neutron;
+                }
+                else
+                {
+                    evolvedStar.Radius.Value = SpaceMath.GravitationalRadius(evolvedStar.Mass.Value * SpaceMath.SolMass) / SpaceMath.SolRadius;
+                    evolvedStar.Color.Value = new Color32(0, 0, 0, 1);
+                    evolvedStar.EvolutionState = StarEvolutionState.BlackHole;
+                }
             }
-            else if (Star.EvolutionState == StarEvolutionState.HyperGiant)
+            else if (Star.EvolutionState == StarEvolutionState.Dwarf)
             {
 
             }

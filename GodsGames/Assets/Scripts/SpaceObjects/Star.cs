@@ -11,29 +11,13 @@ public class Star : MonoBehaviour
 
     private StarData star;
 
-    public bool create;
-    public bool evolve;
-
     void Start()
     {
         CreateStar();
-        create = false;
-        evolve = false;
     }
 
     void Update()
     {
-        if(create)
-        {
-            CreateStar();
-            create = false;
-        }
-
-        if(evolve)
-        {
-            EvolveStar();
-            evolve = false;
-        }
     }
 
     public void CreateStar()
@@ -58,7 +42,8 @@ public class Star : MonoBehaviour
         float radius = star.Radius.Value;
         radius *= (SpaceMath.SolRadius / SpaceMath.Unit) * 2f;
         this.transform.localScale = new Vector3(radius, radius, radius);
+        //this.GetComponent<Renderer>().material.color = star.Color.Value;
+        GetComponent<Rigidbody>().mass = star.Mass.Value * SpaceMath.SolMass * SpaceMath.ToEngineMass;
         this.Evolution = star.EvolutionState;
     }
-
 }

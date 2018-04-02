@@ -11,17 +11,20 @@ namespace SpaceEngine
     {
         public static float G = 6.67408f * Mathf.Pow(10, -11);
 
+        public static float LightSpeed = 299792458;
+
         public static float Mult = 1000000f;
 
         public static float Unit = 10000000f;
         //public static float Unit = 1f;
+        //public static float Unit = 1000f;
 
         public static float EarthMass = 5.972f * Mathf.Pow(10, 24);
         public static float EarthRadius = 6371000f;
         public static float EarthMult = 1f;
 
         public static float SolMass = 1.98892f * Mathf.Pow(10, 30);
-        public static float SolRadius = 695700000f; 
+        public static float SolRadius = 695700000f;
         public static float SolMult = 1f;
 
         public static float ToEngineMass = Mathf.Pow(10, 9) / (250 * SpaceMath.SolMass);
@@ -74,6 +77,10 @@ namespace SpaceEngine
             return SpaceMath.G * ((first.mass * second.mass) / Mathf.Pow(direction.magnitude * SpaceMath.Unit, 2));
         }
 
+        public static float GravitationalRadius(float mass)
+        {
+            return (2 * mass * SpaceMath.G) / (SpaceMath.LightSpeed * SpaceMath.LightSpeed);
+        }
         #endregion
 
         public static Vector3 GetTangentPoint(GameObject circle, GameObject point)
