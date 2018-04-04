@@ -18,7 +18,7 @@ public class DisplayOrbit : MonoBehaviour
     private Vector3 RU;
     private Vector3 RD;
 
-    void Start ()
+    void Start()
     {
         LineRend = GetComponent<LineRenderer>();
         LineRend.SetPosition(0, this.transform.position);
@@ -70,8 +70,14 @@ public class DisplayOrbit : MonoBehaviour
             LD.x = this.transform.position.x;
         }
 
-        A = (RU - LU).magnitude;
-        B = (RU - RD).magnitude;
+        B = (RU - LU).magnitude / 2;
+        A = (RD - RU).magnitude / 2;
+        if(B > A)
+        {
+            float tmp = B;
+            B = A;
+            A = tmp;
+        }
         Eccentricity = Mathf.Sqrt(Mathf.Abs(1 - ((B * B) / (A * A))));
 
         Debug.DrawLine(LU, RU, Color.white);

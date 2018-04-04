@@ -157,6 +157,21 @@ namespace SpaceEngine
             return null;
         }
 
+        public void Mutate()
+        {
+            if (Random.Range(0, 100) < 5)
+            {
+                float mult = Random.Range(10f, 100f);
+                float num = Random.Range(0.1f, 2.5f);
+                this.Mass.Value = mult * num;
+            }
+            else
+            {
+                this.Mass.Value *= Random.Range(0.75f, 1.50f);
+                this.Radius.Value *= Random.Range(0.5f, 2f);
+            }
+        }
+
         public StarData Copy()
         {
             StarData copy = new StarData
@@ -169,22 +184,8 @@ namespace SpaceEngine
             };
             copy.Mass.Value = this.Mass.Value;
             copy.Radius.Value = this.Radius.Value;
+            copy.Color.Value = this.Color.Value;
             return copy;
-        }
-
-        public void Mutate()
-        {
-            if(Random.Range(0, 100) < 5)
-            {
-                float mult = Random.Range(10f, 100f);
-                float num = Random.Range(0.1f, 2.5f);
-                this.Mass.Value = mult * num;
-            }
-            else
-            {
-                this.Mass.Value *= Random.Range(0.75f, 1.50f);
-                this.Radius.Value *= Random.Range(0.5f, 2f);
-            }
         }
     }
 }

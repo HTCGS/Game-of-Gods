@@ -17,7 +17,7 @@ public class StarEditor : Editor
         {
             star.CreateStar();
         }
-
+        
         if (GUILayout.Button("Create random star"))
         {
             star.Class = SpaceEngine.StarClass.Random;

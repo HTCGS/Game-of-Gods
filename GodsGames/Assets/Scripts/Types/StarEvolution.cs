@@ -30,7 +30,7 @@ namespace SpaceEngine
                 {
                     if (Star.Mass.Value < 0.4)
                     {
-                        evolvedStar.Color.Value = new Color32(1, 1, 1, 1);
+                        evolvedStar.Color.Value = new Color32(255, 255, 255, 1);
                         evolvedStar.EvolutionState = StarEvolutionState.Dwarf;
                     }
                     else
@@ -59,7 +59,7 @@ namespace SpaceEngine
                 {
                     evolvedStar.Mass.Value *= Random.Range(0.8f, 0.9f);
                     evolvedStar.Radius.Value = Random.Range(0.8f, 2.2f) / Random.Range(70, 110);
-                    evolvedStar.Color.Value = new Color32(1, 1, 1, 1);
+                    evolvedStar.Color.Value = new Color32(255, 255, 255, 1);
                     evolvedStar.EvolutionState = StarEvolutionState.Dwarf;
                 }
                 else if (Star.Mass.Value <= 10)
@@ -103,7 +103,7 @@ namespace SpaceEngine
                 if (evolvedStar.Mass.Value < 1.44)
                 {
                     evolvedStar.Radius.Value = Random.Range(0.8f, 2.2f) / Random.Range(70, 110);
-                    evolvedStar.Color.Value = new Color32(1, 1, 1, 1);
+                    evolvedStar.Color.Value = new Color32(255, 255, 255, 1);
                     evolvedStar.EvolutionState = StarEvolutionState.Dwarf;
                 }
                 else if (evolvedStar.Mass.Value < 3)

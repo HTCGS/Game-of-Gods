@@ -27,15 +27,17 @@ public class Orbit : MonoBehaviour
         OrbitForce = Mathf.Sqrt(SpaceMath.G * Parent.GetComponent<Rigidbody>().mass / (toParentDirection.magnitude * SpaceMath.Unit)) * SpaceMath.Mult;
 
         float SecondsForce = Mathf.Sqrt(2) * OrbitForce;
-        float deltaForce = (SecondsForce - OrbitForce) * 0.98f;
+        float deltaForce = (SecondsForce - OrbitForce);
 
         if (RandomEccentricity)
         {
+            EccentricityRange = new Range<float>(0, 1);
             OrbitForce += Random.Range(deltaForce * EccentricityRange.From, deltaForce * EccentricityRange.To);
         }
         else
         {
             OrbitForce += deltaForce * Eccentricity;
+            OrbitForce *= 1.013f;
         }
 
         forceParam = ForceParametr(SpaceMath.Mult, SpaceMath.Unit);
@@ -84,7 +86,7 @@ public class Orbit : MonoBehaviour
         return param;
     }
 
-    private Vector3 GetSpaceVelocityVector(Vector3 toParentVector, Rotation direction)
+    public Vector3 GetSpaceVelocityVector(Vector3 toParentVector, Rotation direction)
     {
         Vector3 toCrossVector = Vector3.zero;
         switch (direction)

@@ -4,7 +4,7 @@ using System;
 namespace SpaceEngine
 {
     [System.Serializable]
-    public class Range<T>
+    public class Range<T> 
     {
         public T From;
         public T To;
@@ -13,7 +13,7 @@ namespace SpaceEngine
 
         public Range()
         {
-            
+
         }
 
         public Range(T from, T to)
