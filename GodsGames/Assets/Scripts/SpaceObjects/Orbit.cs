@@ -12,10 +12,9 @@ public class Orbit : MonoBehaviour
 
     public float Eccentricity = 0f;
     public bool RandomEccentricity = false;
-    public Range<float> EccentricityRange;
 
-    private float OrbitForce;
-    private float forceParam;
+    private float orbitVelocity;
+    private float velocityParam;
 
     private bool start;
     private Rigidbody rb;
@@ -23,24 +22,23 @@ public class Orbit : MonoBehaviour
     void Start()
     {
         if (Parent == null) Parent = gameObject.transform.parent.gameObject;
-        Vector3 toParentDirection = Parent.transform.position - this.transform.position;
-        OrbitForce = Mathf.Sqrt(SpaceMath.G * Parent.GetComponent<Rigidbody>().mass / (toParentDirection.magnitude * SpaceMath.Unit)) * SpaceMath.Mult;
+        orbitVelocity = SpaceMath.GetFirstCosmicVelocity(gameObject, Parent, SpaceMath.Mult);
 
-        float SecondsForce = Mathf.Sqrt(2) * OrbitForce;
-        float deltaForce = (SecondsForce - OrbitForce);
+        float SecondVelocity = Mathf.Sqrt(2) * orbitVelocity;
+        float deltaForce = (SecondVelocity - orbitVelocity);
 
         if (RandomEccentricity)
         {
-            EccentricityRange = new Range<float>(0, 1);
-            OrbitForce += Random.Range(deltaForce * EccentricityRange.From, deltaForce * EccentricityRange.To);
+            orbitVelocity += Random.Range(0f, deltaForce * 0.99f);
+            orbitVelocity *= 1.013f;
         }
         else
         {
-            OrbitForce += deltaForce * Eccentricity;
-            OrbitForce *= 1.013f;
+            orbitVelocity += deltaForce * Eccentricity;
+            orbitVelocity *= 1.013f;
         }
 
-        forceParam = ForceParametr(SpaceMath.Mult, SpaceMath.Unit);
+        velocityParam = ForceParametr(SpaceMath.Mult, SpaceMath.Unit);
         rb = GetComponent<Rigidbody>();
         start = true;
     }
@@ -50,15 +48,15 @@ public class Orbit : MonoBehaviour
         if (start)
         {
             Vector3 toParentDirection = Parent.transform.position - this.transform.position;
-            Vector3 forceVector = GetSpaceVelocityVector(toParentDirection, OrbitDirection);
-            rb.AddForce(forceVector * (OrbitForce * forceParam), ForceMode.Acceleration);
+            Vector3 velocityVector = GetSpaceVelocityVector(toParentDirection, OrbitDirection);
+            rb.AddForce(velocityVector * (orbitVelocity * velocityParam), ForceMode.Acceleration);
             start = false;
 
             List<Rigidbody> sats = MassiveObject.FindMassObjects(gameObject);
             foreach (var sat in sats)
             {
                 Rigidbody satRB = sat.GetComponent<Rigidbody>();
-                satRB.AddForce(forceVector * (OrbitForce * forceParam), ForceMode.Acceleration);
+                satRB.AddForce(velocityVector * (orbitVelocity * velocityParam), ForceMode.Acceleration);
             }
         }
         Destroy(this);
@@ -114,7 +112,6 @@ public class Orbit : MonoBehaviour
             default:
                 break;
         }
-
         return Vector3.Cross(toParentVector, toCrossVector).normalized;
     }
 }

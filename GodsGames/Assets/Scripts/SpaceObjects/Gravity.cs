@@ -6,11 +6,9 @@ using SpaceEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Gravity : MonoBehaviour
 {
-    [HideInInspector]
     public static bool Taken = false;
 
-    [HideInInspector]
-    public Rigidbody rb;
+    private Rigidbody rb;
     private static List<Gravity> GravityObjects = new List<Gravity>();
 
     void Start()
@@ -77,6 +75,6 @@ public class Gravity : MonoBehaviour
 
     public void AddGravityForce(Gravity other)
     {
-        SpaceMath.AddGravityForce(rb, other.rb);
+        SpaceMath.AddGravityForce(rb, other.rb, SpaceMath.Mult);
     }
 }

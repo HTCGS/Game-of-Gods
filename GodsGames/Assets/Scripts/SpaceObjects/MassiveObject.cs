@@ -20,7 +20,7 @@ public class MassiveObject : MonoBehaviour
     {
         foreach (var sat in Satellites)
         {
-            SpaceMath.AddGravityForce(sat, rb);
+            SpaceMath.AddGravityForce(sat, rb, SpaceMath.Mult);
         }
 	}
 

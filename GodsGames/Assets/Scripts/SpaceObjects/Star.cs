@@ -4,46 +4,54 @@ using UnityEngine;
 using SpaceEngine;
 
 [RequireComponent(typeof(Rigidbody))]
+[ExecuteInEditMode]
 public class Star : MonoBehaviour
 {
     public StarClass Class;
     public StarEvolutionState Evolution;
 
-    private StarData star;
+    //[HideInInspector]
+    public StarData Data;
 
     void Start()
     {
-        CreateStar();
+        if (Data.IsEmpty()) Create();
+        else Visualize();
     }
 
     void Update()
     {
     }
 
-    public void CreateStar()
+    public void Create()
     {
-        if (Class == StarClass.Random) star = StarData.GetStarData();
-        else star = StarData.GetStarData(Class);
-        star.Mutate();
+        if (Class == StarClass.Random) Data = StarData.GetStarData();
+        else Data = StarData.GetStarData(Class);
+        Data.Mutate();
         float index = Random.Range(0.0f, 1f);
-        float radius = star.Radius.RandomValue(index, Mathf.Lerp);
-        radius *= (SpaceMath.SolRadius / SpaceMath.Unit) * 2f;
-        this.transform.localScale = new Vector3(radius, radius, radius);
-        this.GetComponent<Renderer>().material.color = star.Color.RandomValue(index, Color32.Lerp);
-        this.GetComponent<Rigidbody>().mass = star.Mass.RandomValue(index, Mathf.Lerp) * SpaceMath.SolMass * SpaceMath.ToEngineMass;
-        this.Class = star.StarClass;
-        this.Evolution = star.EvolutionState;
+        Data.Radius.RandomValue(index, Mathf.Lerp);
+        Data.Color.RandomValue(index, Color.Lerp);
+        Data.Mass.RandomValue(index, Mathf.Lerp);
+        this.Evolution = Data.EvolutionState;
+        this.Class = Data.StarClass;
+        Visualize();
     }
 
-    public void EvolveStar()
+    public void Evolve()
     {
-        StarEvolution starEvolution = new StarEvolution(star);
-        star = starEvolution.Evolve();
-        float radius = star.Radius.Value;
+        StarEvolution starEvolution = new StarEvolution(Data);
+        Data = starEvolution.Evolve();
+        this.Evolution = Data.EvolutionState;
+        Visualize();
+    }
+
+    private void Visualize()
+    {
+        float radius = Data.Radius.Value;
         radius *= (SpaceMath.SolRadius / SpaceMath.Unit) * 2f;
         this.transform.localScale = new Vector3(radius, radius, radius);
-        this.GetComponent<Renderer>().material.color = star.Color.Value;
-        GetComponent<Rigidbody>().mass = star.Mass.Value * SpaceMath.SolMass * SpaceMath.ToEngineMass;
-        this.Evolution = star.EvolutionState;
+        this.GetComponent<Renderer>().sharedMaterial = new Material(Shader.Find("Standard"));
+        this.GetComponent<Renderer>().sharedMaterial.color = Data.Color.Value;
+        this.GetComponent<Rigidbody>().mass = Data.Mass.Value * SpaceMath.SolMass * SpaceMath.ToEngineMass;
     }
 }

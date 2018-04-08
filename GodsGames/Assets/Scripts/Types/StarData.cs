@@ -2,11 +2,12 @@
 
 namespace SpaceEngine
 {
+    [System.Serializable]
     public class StarData
     {
-        public Range<float> Mass;
-        public Range<float> Radius;
-        public Range<Color32> Color;
+        public FRange Mass;
+        public FRange Radius;
+        public CRange Color;
         public float Luminosity;
         public StarClass StarClass;
         public StarEvolutionState EvolutionState;
@@ -17,9 +18,9 @@ namespace SpaceEngine
             {
                 return new StarData
                 {
-                    Mass = new Range<float>(25f, 58f),
-                    Radius = new Range<float>(9f, 16f),
-                    Color = new Range<Color32>(new Color32(62, 108, 255, 255), new Color32(61, 107, 255, 255)),
+                    Mass = new FRange(25f, 58f),
+                    Radius = new FRange(9f, 16f),
+                    Color = new CRange(new Color32(62, 108, 255, 255), new Color32(61, 107, 255, 255)),
                     StarClass = StarClass.O
                 };
             }
@@ -31,9 +32,9 @@ namespace SpaceEngine
             {
                 return new StarData
                 {
-                    Mass = new Range<float>(3.4f, 16f),
-                    Radius = new Range<float>(3.7f, 5.7f),
-                    Color = new Range<Color32>(new Color32(87, 133, 255, 255), new Color32(68, 114, 255, 255)),
+                    Mass = new FRange(3.4f, 16f),
+                    Radius = new FRange(3.7f, 5.7f),
+                    Color = new CRange(new Color32(87, 133, 255, 255), new Color32(68, 114, 255, 255)),
                     StarClass = StarClass.B
                 };
             }
@@ -45,9 +46,9 @@ namespace SpaceEngine
             {
                 return new StarData
                 {
-                    Mass = new Range<float>(1.9f, 2.6f),
-                    Radius = new Range<float>(1.8f, 2.3f),
-                    Color = new Range<Color32>(new Color32(156, 189, 255, 255), new Color32(124, 165, 255, 255)),
+                    Mass = new FRange(1.9f, 2.6f),
+                    Radius = new FRange(1.8f, 2.3f),
+                    Color = new CRange(new Color32(156, 189, 255, 255), new Color32(124, 165, 255, 255)),
                     StarClass = StarClass.A
                 };
             }
@@ -59,9 +60,9 @@ namespace SpaceEngine
             {
                 return new StarData
                 {
-                    Mass = new Range<float>(1.2f, 1.6f),
-                    Radius = new Range<float>(1.2f, 1.5f),
-                    Color = new Range<Color32>(new Color32(212, 228, 255, 255), new Color32(177, 204, 255, 255)),
+                    Mass = new FRange(1.2f, 1.6f),
+                    Radius = new FRange(1.2f, 1.5f),
+                    Color = new CRange(new Color32(212, 228, 255, 255), new Color32(177, 204, 255, 255)),
                     StarClass = StarClass.F
                 };
             }
@@ -73,9 +74,9 @@ namespace SpaceEngine
             {
                 return new StarData
                 {
-                    Mass = new Range<float>(0.86f, 1.08f),
-                    Radius = new Range<float>(0.98f, 1.05f),
-                    Color = new Range<Color32>(new Color32(255, 246, 233, 255), new Color32(237, 244, 255, 255)),
+                    Mass = new FRange(0.86f, 1.08f),
+                    Radius = new FRange(0.98f, 1.05f),
+                    Color = new CRange(new Color32(255, 246, 233, 255), new Color32(237, 244, 255, 255)),
                     StarClass = StarClass.G
                 };
             }
@@ -87,9 +88,9 @@ namespace SpaceEngine
             {
                 return new StarData
                 {
-                    Mass = new Range<float>(0.58f, 0.83f),
-                    Radius = new Range<float>(0.75f, 0.89f),
-                    Color = new Range<Color32>(new Color32(255, 203, 145, 255), new Color32(255, 233, 203, 255)),
+                    Mass = new FRange(0.58f, 0.83f),
+                    Radius = new FRange(0.75f, 0.89f),
+                    Color = new CRange(new Color32(255, 203, 145, 255), new Color32(255, 233, 203, 255)),
                     StarClass = StarClass.K
                 };
             }
@@ -101,9 +102,9 @@ namespace SpaceEngine
             {
                 return new StarData
                 {
-                    Mass = new Range<float>(0.08f, 0.47f),
-                    Radius = new Range<float>(0.10f, 0.64f),
-                    Color = new Range<Color32>(new Color32(208, 0, 0, 255), new Color32(255, 174, 98, 255)),
+                    Mass = new FRange(0.08f, 0.47f),
+                    Radius = new FRange(0.10f, 0.64f),
+                    Color = new CRange(new Color32(208, 0, 0, 255), new Color32(255, 174, 98, 255)),
                     StarClass = StarClass.M
                 };
             }
@@ -111,9 +112,9 @@ namespace SpaceEngine
 
         public StarData()
         {
-            this.Mass = new Range<float>();
-            this.Radius = new Range<float>();
-            this.Color = new Range<Color32>();
+            this.Mass = new FRange();
+            this.Radius = new FRange();
+            this.Color = new CRange();
             this.EvolutionState = StarEvolutionState.Main;
         }
 
@@ -172,13 +173,20 @@ namespace SpaceEngine
             }
         }
 
+        public bool IsEmpty()
+        {
+            if (Mass.Value == default(float) && Radius.Value == default(float)
+                && StarClass == StarClass.Random && EvolutionState == StarEvolutionState.Main) return true;
+            return false;
+        }
+
         public StarData Copy()
         {
             StarData copy = new StarData
             {
-                Mass = new Range<float>(this.Mass.From, this.Mass.To),
-                Radius = new Range<float>(this.Radius.From, this.Radius.To),
-                Color = new Range<Color32>(this.Color.From, this.Color.To),
+                Mass = new FRange(this.Mass.From, this.Mass.To),
+                Radius = new FRange(this.Radius.From, this.Radius.To),
+                Color = new CRange(this.Color.From, this.Color.To),
                 StarClass = this.StarClass,
                 EvolutionState = this.EvolutionState
             };

@@ -13,20 +13,20 @@ public class StarEditor : Editor
         
         Star star = target as Star;
 
-        if(GUILayout.Button("Create"))
+        if (GUILayout.Button("Create"))
         {
-            star.CreateStar();
+            star.Create();
         }
         
         if (GUILayout.Button("Create random star"))
         {
             star.Class = SpaceEngine.StarClass.Random;
-            star.CreateStar();
+            star.Create();
         }
 
         if (GUILayout.Button("Evolve"))
         {
-            star.EvolveStar();
+            star.Evolve();
         }
     }
 }

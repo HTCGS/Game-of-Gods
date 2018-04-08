@@ -5,27 +5,11 @@ using UnityEditor;
 [CustomEditor(typeof(Orbit)), CanEditMultipleObjects]
 public class OrbitEditor : Editor
 {
-    private SerializedProperty EccentricityRange;
-
     private float lastScale;
 
     private void OnEnable()
     {
-        EccentricityRange = serializedObject.FindProperty("EccentricityRange");
         lastScale = 0;
-    }
-
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
-        //Orbit orbit = target as Orbit;
-        EditorGUILayout.BeginHorizontal();
-        //EditorGUILayout.LabelField("Eccentricity range");
-        //EditorGUILayout.FloatField("From", 0);
-        //EditorGUILayout.FloatField("To", 1);
-        EditorGUILayout.EndHorizontal();
-
     }
 
     private void OnSceneGUI()
