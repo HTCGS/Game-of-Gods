@@ -60,15 +60,18 @@ public class Gravity : MonoBehaviour
 
     private void CompressObjects(GameObject to, GameObject from)
     {
-        float rnd = Random.Range(0.2f, 0.6f);
-        to.transform.localScale += from.transform.localScale * rnd;
-        to.GetComponent<Rigidbody>().mass += from.gameObject.GetComponent<Rigidbody>().mass * rnd;
-        if(Random.Range(0f, 100f) < 30)
-        {
-            from.transform.localScale -= from.transform.localScale * rnd;
-            from.GetComponent<Rigidbody>().mass -= from.gameObject.GetComponent<Rigidbody>().mass * rnd;
-            return;
-        }
+        //float rnd = Random.Range(0.2f, 0.6f);
+        //to.transform.localScale += from.transform.localScale * rnd;
+        //to.GetComponent<Rigidbody>().mass += from.gameObject.GetComponent<Rigidbody>().mass * rnd;
+        //if(Random.Range(0f, 100f) < 30)
+        //{
+        //    from.transform.localScale -= from.transform.localScale * rnd;
+        //    from.GetComponent<Rigidbody>().mass -= from.gameObject.GetComponent<Rigidbody>().mass * rnd;
+        //    return;
+        //}
+
+        to.transform.localScale += from.transform.localScale;
+        to.GetComponent<Rigidbody>().mass += from.gameObject.GetComponent<Rigidbody>().mass;
         Destroy(from);
         Debug.Log("ooups!");
     }
