@@ -61,7 +61,7 @@ namespace SpaceEngine
 
         public static float GetGravityForce(Rigidbody first, Rigidbody second)
         {
-            Vector3 direction = second.transform.position - first.transform.position;
+            Vector3 direction = second.position - first.position;
             return GetGravityForce(first, second, direction);
         }
 
@@ -102,7 +102,7 @@ namespace SpaceEngine
 
         public static float GetFirstCosmicVelocity(Rigidbody cosmicObject, Rigidbody parent, float mult)
         {
-            Vector3 toParentDirection = parent.transform.position - cosmicObject.transform.position;
+            Vector3 toParentDirection = parent.position - cosmicObject.position;
             return Mathf.Sqrt(SpaceMath.G * parent.mass / (toParentDirection.magnitude * SpaceMath.Unit)) * mult;
         }
 

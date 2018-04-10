@@ -7,99 +7,61 @@ public class CollisionTest : MonoBehaviour
 {
     public static bool Taken = false;
 
-    private void OnCollisionStay(Collision collision)
-    {
-        if (CollisionTest.Taken)
-        {
-            Destroy(collision.gameObject);
-            Taken = false;
-        }
-        else Taken = true;
-    }
+    //private void OnCollisionStay(Collision collision)
+    //{
+    //    if (CollisionTest.Taken)
+    //    {
+    //        Destroy(collision.gameObject);
+    //        Taken = false;
+    //    }
+    //    else Taken = true;
+    //}
 
     public GameObject Star;
     public GameObject Planet;
 
-    public int Sum;
+    public float Force;
 
-    public int[] nums = new int[10];
+    public int time;
+
+    private void Start()
+    {
+        time = 0;
+        //Debug.Log(Mathf.Pow(1 / (4.18f * 2333), 1f / 3f) * 2);
+    }
 
     private void FixedUpdate()
     {
         //float starForce = SpaceMath.GetGravityForce(Star, gameObject);
         //float planetForce = SpaceMath.GetGravityForce(Planet, gameObject);
 
+        //Force = SpaceMath.GetGravityForce(this.gameObject, Star);
+
         //Debug.Log("Star: " + starForce);
         //Debug.Log("Planet: " + planetForce);
 
 
-        //Debug.Log(Random.Range(0.00001f, 1f));
-        //Debug.Log(Random.value * (1f - 0.00001f) + 0.00001f);
-        //Debug.Log(Random.Range(0.00001f, 0.001f));
+        time++;
 
-        //float rnd = Random.Range(0.00001f, 80f);
+        if (time == 5)
+        {
+            time = 0;
 
-        //if (rnd >= 0.00001f && rnd <= 0.00003f) O++;
-        //if (rnd > 0.00003f && rnd <= 0.0001f) Super++;
-        //if (rnd > 0.0001f && rnd <= 0.1f) B++;
-        //if (rnd > 0.1f && rnd <= 0.4f) GiG++;
-        //if (rnd > 0.4f && rnd <= 0.7f) A++;
-        //if (rnd > 0.7f && rnd <= 2f) F++;
-        //if (rnd > 2f && rnd <= 3.5f) G++;
-        //if (rnd > 3.5f && rnd <= 5f) Kar++;
-        //if (rnd > 5f && rnd <= 8f) K++;
-        //if (rnd > 8f && rnd <= 80f) M++;
+            foreach (Gravity to in Gravity.GravityObjects)
+            {
 
+                foreach (Gravity item in Gravity.GravityObjects)
+                {
+                    if (to != item) SpaceMath.AddGravityForce(to.rb, item.rb, SpaceMath.Mult);
 
-        //float mult = Random.Range(10f, 100f);
-        //float num = Random.Range(0.1f, 2.5f);
+                    //Vector3 toTarget = (item.transform.position - this.transform.position).normalized;
+                    //toTarget *= SpaceMath.GetGravityForce(rb, item.rb, toTarget);
+                    //direction += toTarget;
+                }
+            }
 
-        //Debug.Log();
+        }
 
-        //if(Random.Range(0.0f, 100) <= 1) Sum++;
-
-        int rand = Random.Range(0, 10);
-        if (rand == 0)
-        {
-            nums[0]++;
-        }
-        if (rand == 1)
-        {
-            nums[1]++;
-        }
-        if (rand == 2)
-        {
-            nums[2]++;
-        }
-        if (rand == 3)
-        {
-            nums[3]++;
-        }
-        if (rand == 4)
-        {
-            nums[4]++;
-        }
-        if (rand == 5)
-        {
-            nums[5]++;
-        }
-        if (rand == 6)
-        {
-            nums[6]++;
-        }
-        if (rand == 7)
-        {
-            nums[7]++;
-        }
-        if (rand == 8)
-        {
-            nums[8]++;
-        }
-        if (rand == 9)
-        {
-            nums[9]++;
-        }
-    
     }
 
 }
