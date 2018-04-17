@@ -17,6 +17,7 @@ public class OrbitEditor : Editor
         Orbit orbit = target as Orbit;
 
         if (orbit.Eccentricity < 0 || orbit.Eccentricity >= 1) return;
+        if (orbit.transform.parent == null || orbit.Parent == null) return;
 
         float focus = orbit.Eccentricity;
         Vector3 toParent = orbit.Parent.transform.position - orbit.transform.position;

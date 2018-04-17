@@ -10,13 +10,13 @@ public class MassiveObject : MonoBehaviour
 
     private Rigidbody rb;
 
-    void Start ()
+    void Start()
     {
         Satellites = FindMassObjects(gameObject);
         rb = this.GetComponent<Rigidbody>();
-	}
-	
-	void FixedUpdate ()
+    }
+
+    void FixedUpdate()
     {
         foreach (var sat in Satellites)
         {
@@ -25,7 +25,7 @@ public class MassiveObject : MonoBehaviour
                 SpaceMath.AddGravityForce(sat, rb, SpaceMath.Mult);
             }
         }
-	}
+    }
 
     public static List<Rigidbody> FindMassObjects(GameObject root)
     {
@@ -34,7 +34,7 @@ public class MassiveObject : MonoBehaviour
         {
             GameObject child = root.transform.GetChild(i).gameObject;
             Rigidbody childRB = child.GetComponent<Rigidbody>();
-            if(childRB != null)
+            if (childRB != null)
             {
                 massObjects.Add(childRB);
             }
@@ -42,4 +42,4 @@ public class MassiveObject : MonoBehaviour
         }
         return massObjects;
     }
-}   
+}

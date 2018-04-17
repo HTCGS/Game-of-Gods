@@ -21,6 +21,7 @@ public class Orbit : MonoBehaviour
 
     void Start()
     {
+        if (gameObject.transform.parent == null) return;
         if (Parent == null) Parent = gameObject.transform.parent.gameObject;
         orbitVelocity = SpaceMath.GetFirstCosmicVelocity(gameObject, Parent, SpaceMath.Mult);
 
@@ -49,14 +50,15 @@ public class Orbit : MonoBehaviour
         {
             Vector3 toParentDirection = Parent.transform.position - this.transform.position;
             Vector3 velocityVector = GetSpaceVelocityVector(toParentDirection, OrbitDirection);
-            rb.AddForce(velocityVector * (orbitVelocity * velocityParam), ForceMode.Acceleration);
+            velocityVector *= orbitVelocity * velocityParam;
+            rb.AddForce(velocityVector, ForceMode.Acceleration);
             start = false;
 
             List<Rigidbody> sats = MassiveObject.FindMassObjects(gameObject);
             foreach (var sat in sats)
             {
                 Rigidbody satRB = sat.GetComponent<Rigidbody>();
-                satRB.AddForce(velocityVector * (orbitVelocity * velocityParam), ForceMode.Acceleration);
+                satRB.AddForce(velocityVector, ForceMode.Acceleration);
             }
         }
         Destroy(this);

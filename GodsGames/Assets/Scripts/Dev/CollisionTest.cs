@@ -40,28 +40,24 @@ public class CollisionTest : MonoBehaviour
         //Debug.Log("Star: " + starForce);
         //Debug.Log("Planet: " + planetForce);
 
-
         time++;
 
-        if (time == 5)
+        if (time == 20)
         {
             time = 0;
 
-            foreach (Gravity to in Gravity.GravityObjects)
+            for (int i = 0; i < Gravity.GravityObjects.Count - 1; i++)
             {
-
-                foreach (Gravity item in Gravity.GravityObjects)
+                for (int j = i + 1; j < Gravity.GravityObjects.Count; j++)
                 {
-                    if (to != item) SpaceMath.AddGravityForce(to.rb, item.rb, SpaceMath.Mult);
-
-                    //Vector3 toTarget = (item.transform.position - this.transform.position).normalized;
-                    //toTarget *= SpaceMath.GetGravityForce(rb, item.rb, toTarget);
-                    //direction += toTarget;
+                    Vector3 direction = Gravity.GravityObjects[j].rb.position - Gravity.GravityObjects[i].rb.position;
+                    float force = SpaceMath.GetGravityForce(Gravity.GravityObjects[i].rb, Gravity.GravityObjects[j].rb, direction) * SpaceMath.Mult;
+                    direction = direction.normalized * force * 20;
+                    Gravity.GravityObjects[i].rb.AddForce(direction);
+                    Gravity.GravityObjects[j].rb.AddForce(-direction);
                 }
             }
-
         }
-
     }
 
 }

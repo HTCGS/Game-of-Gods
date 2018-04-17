@@ -8,12 +8,14 @@ public class Gravity : MonoBehaviour
 {
     public static bool Taken = false;
 
+    [HideInInspector]
     public Rigidbody rb;
     public static List<Gravity> GravityObjects = new List<Gravity>();
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        GravityObjects.Add(this);
     }
 
     void FixedUpdate()
@@ -39,7 +41,7 @@ public class Gravity : MonoBehaviour
 
     private void OnEnable()
     {
-        GravityObjects.Add(this);
+        if(rb != null) GravityObjects.Add(this);
     }
 
     private void OnDisable()

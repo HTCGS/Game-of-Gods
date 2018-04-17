@@ -22,7 +22,10 @@ namespace SpaceEngine
         public static float Mult = 1000000f;
 
         //public static float Unit = 10000000f;
+        //public static float Unit = 1000000000f;
         public static float Unit = 1f;
+        //public static float Unit = AU;
+        //public static float Unit = AU / 2;
         //public static float Unit = 1000f;
 
         #region Gravity
@@ -55,25 +58,30 @@ namespace SpaceEngine
 
         public static float GetGravityForce(GameObject first, GameObject second)
         {
-            Vector3 direction = second.transform.position - first.transform.position;
-            return GetGravityForce(first, second, direction);
+            Vector3 distance = second.transform.position - first.transform.position;
+            return GetGravityForce(first, second, distance);
         }
 
         public static float GetGravityForce(Rigidbody first, Rigidbody second)
         {
-            Vector3 direction = second.position - first.position;
-            return GetGravityForce(first, second, direction);
+            Vector3 distance = second.position - first.position;
+            return GetGravityForce(first, second, distance);
         }
 
-        public static float GetGravityForce(GameObject first, GameObject second, Vector3 direction)
+        public static float GetGravityForce(GameObject first, GameObject second, Vector3 distance)
         {
             return SpaceMath.G * ((first.GetComponent<Rigidbody>().mass * second.GetComponent<Rigidbody>().mass) /
-                Mathf.Pow(direction.magnitude * SpaceMath.Unit, 2));
+                Mathf.Pow(distance.magnitude * SpaceMath.Unit, 2));
         }
 
-        public static float GetGravityForce(Rigidbody first, Rigidbody second, Vector3 direction)
+        public static float GetGravityForce(Rigidbody first, Rigidbody second, Vector3 distance)
         {
-            return SpaceMath.G * ((first.mass * second.mass) / Mathf.Pow(direction.magnitude * SpaceMath.Unit, 2));
+            return SpaceMath.G * ((first.mass * second.mass) / Mathf.Pow(distance.magnitude * SpaceMath.Unit, 2));
+        }
+
+        public static float GetGravityForce(float first, float second, float distance)
+        {
+            return SpaceMath.G * ((first * second) / Mathf.Pow(distance, 2));
         }
 
         public static float GravitationalRadius(float mass)
@@ -96,16 +104,15 @@ namespace SpaceEngine
 
         public static float GetFirstCosmicVelocity(GameObject cosmicObject, GameObject parent, float mult)
         {
-            Vector3 toParentDirection = parent.transform.position - cosmicObject.transform.position;
-            return Mathf.Sqrt(SpaceMath.G * parent.GetComponent<Rigidbody>().mass / (toParentDirection.magnitude * SpaceMath.Unit)) * mult;
+            Vector3 toParentDistance = parent.transform.position - cosmicObject.transform.position;
+            return Mathf.Sqrt(SpaceMath.G * parent.GetComponent<Rigidbody>().mass / (toParentDistance.magnitude * SpaceMath.Unit)) * mult;
         }
 
         public static float GetFirstCosmicVelocity(Rigidbody cosmicObject, Rigidbody parent, float mult)
         {
-            Vector3 toParentDirection = parent.position - cosmicObject.position;
-            return Mathf.Sqrt(SpaceMath.G * parent.mass / (toParentDirection.magnitude * SpaceMath.Unit)) * mult;
+            Vector3 toParentDistance = parent.position - cosmicObject.position;
+            return Mathf.Sqrt(SpaceMath.G * parent.mass / (toParentDistance.magnitude * SpaceMath.Unit)) * mult;
         }
-
 
         #endregion
 
