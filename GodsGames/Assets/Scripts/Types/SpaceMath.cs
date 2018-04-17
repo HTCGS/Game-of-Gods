@@ -22,8 +22,8 @@ namespace SpaceEngine
         public static float Mult = 1000000f;
 
         //public static float Unit = 10000000f;
-        //public static float Unit = 1000000000f;
-        public static float Unit = 1f;
+        public static float Unit = 1000000000f;
+        //public static float Unit = 1f;
         //public static float Unit = AU;
         //public static float Unit = AU / 2;
         //public static float Unit = 1000f;

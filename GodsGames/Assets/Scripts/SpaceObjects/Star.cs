@@ -25,8 +25,8 @@ public class Star : MonoBehaviour
 
     public void Create()
     {
-        if (Class == StarClass.Random) Data = StarData.GetStarData();
-        else Data = StarData.GetStarData(Class);
+        if (Class == StarClass.Random) Data = StarData.GetData();
+        else Data = StarData.GetData(Class);
         Data.Mutate();
         float index = Random.Range(0.0f, 1f);
         Data.Radius.RandomValue(index, Mathf.Lerp);

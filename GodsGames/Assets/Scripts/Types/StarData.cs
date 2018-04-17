@@ -126,7 +126,7 @@ namespace SpaceEngine
             this.EvolutionState = StarEvolutionState.Main;
         }
 
-        public static StarData GetStarData()
+        public static StarData GetData()
         {
             float rnd = Random.Range(0.00001f, 100f);
 
@@ -140,12 +140,12 @@ namespace SpaceEngine
             return null;
         }
 
-        public static StarData GetStarData(StarClass starClass)
+        public static StarData GetData(StarClass starClass)
         {
             switch (starClass)
             {
                 case StarClass.Random:
-                    return GetStarData();
+                    return GetData();
                 case StarClass.O:
                     return StarData.O;
                 case StarClass.B:
