@@ -10,7 +10,7 @@ namespace SpaceEngine
 
     public enum StarEvolutionState { Random, Neutron, Dwarf, Main, SubGiant, Giant, SuperGiant, HyperGiant, BlackHole }
 
-    public enum PlanetClass { Random, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, S, U, X, Y }
+    public enum PlanetClass { Random, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, S, X, Y }
 
     public enum Zone { Hot, Eco, Cold}
 

@@ -37,7 +37,6 @@ public class StarSystem : MonoBehaviour
                 Vector3 pos = (new Vector3(1, 0, 0).normalized * ((SpaceMath.AU * radius) / SpaceMath.Unit)) * DistanceMult;
                 GameObject planet = Instantiate(PlanetPrefab, this.transform.position + pos, Quaternion.identity);
                 planet.transform.SetParent(star.transform);
-
             }
             d += 3;
         }
