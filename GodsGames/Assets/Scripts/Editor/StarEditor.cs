@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(Star))]
@@ -27,6 +25,17 @@ public class StarEditor : Editor
         if (GUILayout.Button("Evolve"))
         {
             star.Evolve();
+        }
+
+        GUILayout.Space(10f);
+        if (GUILayout.Button("Add planet"))
+        {
+            star.AddPlanet();
+        }
+
+        if (GUILayout.Button("Delete planets"))
+        {
+            star.DestroyPlanets();
         }
     }
 }

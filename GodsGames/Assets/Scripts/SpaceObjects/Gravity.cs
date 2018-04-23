@@ -84,7 +84,7 @@ public class Gravity : MonoBehaviour
         //}
 
         to.GetComponent<Rigidbody>().mass += from.gameObject.GetComponent<Rigidbody>().mass;
-        float r = Mathf.Pow(to.GetComponent<Rigidbody>().mass / (4.18f * 2333f), 1f / 3f) * 2;
+        float r = SpaceMath.GetSphereRadius(to.GetComponent<Rigidbody>(), 2333f) * 2;
         to.transform.localScale = new Vector3(r, r, r);
 
 

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using SpaceEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -10,11 +8,23 @@ public class Star : MonoBehaviour
     public StarClass Class;
     public StarEvolutionState Evolution;
 
-    //[HideInInspector]
+    [Space(5)]
+    public GameObject PlanetPrefab;
+
+    [HideInInspector]
     public StarData Data;
+
+    [HideInInspector]
+    public PlanetPosition planetPosition;
 
     void Start()
     {
+        if (planetPosition == null)
+        {
+            planetPosition = new PlanetPosition(gameObject);
+            planetPosition.GenerateSeed();
+        }
+        if (Data == null) return;
         if (Data.IsEmpty()) Create();
         else Visualize();
     }
@@ -35,6 +45,7 @@ public class Star : MonoBehaviour
         this.Evolution = Data.EvolutionState;
         this.Class = Data.StarClass;
         Visualize();
+        DestroyPlanets(); 
     }
 
     public void Evolve()
@@ -43,6 +54,28 @@ public class Star : MonoBehaviour
         Data = starEvolution.Evolve();
         this.Evolution = Data.EvolutionState;
         Visualize();
+    }
+
+    public void AddPlanet()
+    {
+        float position = planetPosition.NextPosition();
+        if (position != 0)
+        {
+            float radius = ((SpaceMath.AU * position) / SpaceMath.Unit);
+            Vector3 pos = new Vector3(1, 0, 0).normalized * radius;
+            GameObject planet = Instantiate(PlanetPrefab, this.transform.position + pos, Quaternion.identity);
+            planet.transform.SetParent(this.transform);
+        }
+    }
+
+    public void DestroyPlanets()
+    {
+        for (int i = this.transform.childCount - 1; i >= 0; i--)
+        {
+            if (Application.isEditor) DestroyImmediate(this.transform.GetChild(i).gameObject);
+            else Destroy(this.transform.GetChild(i).gameObject);
+        }
+        planetPosition.GenerateSeed();
     }
 
     private void Visualize()

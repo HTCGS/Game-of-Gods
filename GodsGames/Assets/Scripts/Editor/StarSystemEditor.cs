@@ -4,7 +4,6 @@ using UnityEditor;
 [CustomEditor(typeof(StarSystem))]
 public class StarSystemEditor : Editor
 {
-
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
@@ -18,5 +17,4 @@ public class StarSystemEditor : Editor
             starSystem.Create();
         }
     }
-
 }

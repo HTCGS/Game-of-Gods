@@ -19,7 +19,7 @@ namespace SpaceEngine
 
         public static readonly float ToEngineMass = Mathf.Pow(10, 9) / (250 * SpaceMath.SolMass);
 
-        public static float Mult = 1000000f;
+        public static float Mult = 100000000f;
 
         //public static float Unit = 10000000f;
         public static float Unit = 1000000000f;
@@ -112,6 +112,35 @@ namespace SpaceEngine
         {
             Vector3 toParentDistance = parent.position - cosmicObject.position;
             return Mathf.Sqrt(SpaceMath.G * parent.mass / (toParentDistance.magnitude * SpaceMath.Unit)) * mult;
+        }
+
+        #endregion
+
+        #region Shape
+
+        public static float GetSphereRadius(GameObject body, float density)
+        {
+            return GetSphereRadius(body.GetComponent<Rigidbody>(), density);
+        }
+
+        public static float GetSphereRadius(Rigidbody body, float density)
+        {
+            return GetSphereRadius(body.mass, density);
+        }
+
+        public static float GetSphereRadius(float mass, float density)
+        {
+            return Mathf.Pow(mass / (1.333f * Mathf.PI * density), 1f / 3f);
+        }
+
+        public static float GetSphereMass(GameObject body, float density)
+        {
+            return GetSphereMass(body.transform.localScale.magnitude, density);
+        }
+
+        public static float GetSphereMass(float radius, float density)
+        {
+            return 1.333f * Mathf.PI * Mathf.Pow(radius, 3) * density;
         }
 
         #endregion

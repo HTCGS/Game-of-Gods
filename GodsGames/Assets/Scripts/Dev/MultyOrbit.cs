@@ -6,15 +6,25 @@ using SpaceEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class MultyOrbit : MonoBehaviour
 {
-    public float Force;
+    public float SolForce;
+    public float EarthForce;
+
+    public float Distanse;
 
     public GameObject Sat;
 
+    public GameObject Earth;
+
+
+
     void Start()
     {
-        Force = 0;
+        SolForce = 0;
+        EarthForce = 0;
 
-        GetComponent<Rigidbody>().mass = SpaceMath.SolMass * SpaceMath.ToEngineMass;
+        //GetComponent<Rigidbody>().mass = SpaceMath.SolMass * SpaceMath.ToEngineMass;
+        //Earth.GetComponent<Rigidbody>().mass = SpaceMath.EarthMass * SpaceMath.ToEngineMass;
+        //Sat.GetComponent<Rigidbody>().mass = 7.34f * Mathf.Pow(10f, 22) * SpaceMath.ToEngineMass;
 
         //float jupMass = 1.8982f * Mathf.Pow(10, 27);
 
@@ -29,7 +39,7 @@ public class MultyOrbit : MonoBehaviour
         //Debug.Log(4.18f * Mathf.Pow(250000000, 3) * 1700);
         //Debug.Log(4.18f * Mathf.Pow(50000000f, 3) * 10000f);
         //Debug.Log(4.18f * Mathf.Pow(64400000f, 3) * 100000f);
-        
+
         //Debug.Log((1.11f * Mathf.Pow(10, 28)) / SpaceMath.SolMass);
 
         //Debug.Log(0.079f *  SpaceMath.SolMass );
@@ -58,10 +68,50 @@ public class MultyOrbit : MonoBehaviour
         //Debug.Log(Mathf.Pow((0.079f * SpaceMath.SolMass) / (4.18f * 1700), 1f / 3f) / SpaceMath.SolRadius);
 
         //Debug.Log((0.079f * SpaceMath.SolMass) / (4.18f * Mathf.Pow(0.099f * SpaceMath.SolRadius, 3)));
+
+
+        SolForce = SpaceMath.GetGravityForce(gameObject, Sat);
+        EarthForce = SpaceMath.GetGravityForce(Earth, Sat);
+
+        //Debug.Log(this.GetComponent<Rigidbody>().mass / Mathf.Pow( (Sat.transform.position - this.transform.position).magnitude, 2));
+
+        //Debug.Log(Earth.GetComponent<Rigidbody>().mass / Mathf.Pow( (Sat.transform.position - Earth.transform.position).magnitude, 2));
+
+        //Debug.Log(SpaceMath.SolRadius * 109.25f);
+        //Debug.Log((SpaceMath.SolRadius * 109.25f) / SpaceMath.AU);
+        //Debug.Log( 50f * SpaceMath.AU);
+
+
+        //PlanetPosition planetPosition = new PlanetPosition();
+        //for (int i = 0; i < 10; i++)
+        //{
+        //    Debug.Log(planetPosition.PositionAt(i));
+        //}
+
+        SatellitePosition satellitePosition = new SatellitePosition();
+        for (int i = 0; i < 10; i++)
+        {
+            //Debug.Log(satellitePosition.PositionAt(i));
+        }
+
+        //for (int i = 0; i < 10; i++)
+        //{
+        //    float d = 9.1f * Mathf.Pow(0.52f, i);
+        //    //float d = 0.5f * Mathf.Pow(9.52f, i);
+        //    Debug.Log((d + 4) / 10);
+        //    //Debug.Log(((d + 4) / 10) * SpaceMath.AU);
+
+        //    //Debug.Log(pos.NextPosition());
+        //}
     }
 
     void Update()
     {
-        Force = SpaceMath.GetGravityForce(gameObject, Sat);
+        //Force = SpaceMath.GetGravityForce(gameObject, Sat);
+
+        SolForce = SpaceMath.GetGravityForce(gameObject, Sat);
+        EarthForce = SpaceMath.GetGravityForce(Earth, Sat);
+
+        Distanse = (Sat.transform.position - Earth.transform.position).magnitude;
     }
 }
