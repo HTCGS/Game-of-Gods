@@ -6,16 +6,20 @@ namespace SpaceEngine
     [System.Serializable]
     public class SatellitePosition : TitiusBodeLaw
     {
+        public GameObject Star;
+
         public SatellitePosition()
         {
         }
 
         public SatellitePosition(GameObject parent) : base(parent)
         {
+            Star = parent.transform.parent.gameObject;
         }
 
         public SatellitePosition(Rigidbody parent) : base(parent)
         {
+            Star = parent.transform.parent.gameObject;
         }
 
         public override void GenerateSeed()
@@ -27,7 +31,7 @@ namespace SpaceEngine
         {
             int index = -1;
             if (Parent.transform.parent == null) return index;
-            float starMass = Parent.transform.parent.GetComponent<Rigidbody>().mass;
+            float starMass = Star.GetComponent<Rigidbody>().mass;
             float planetMass = Parent.GetComponent<Rigidbody>().mass;
             float starGravity = 0;
             float planetGravity = 0;
@@ -35,8 +39,12 @@ namespace SpaceEngine
             {
                 index++;
                 float orbitRadius = PositionAt(index);
-                orbitRadius *= 1000000f;
-                starGravity = SpaceMath.GetGravityForce(starMass, 1f, orbitRadius);
+                orbitRadius *= 10000000f;
+                orbitRadius *= SpaceMath.Unit;
+                float toStar = (Star.transform.position - Parent.transform.position).magnitude;
+                toStar += orbitRadius;
+                toStar *= SpaceMath.Unit;
+                starGravity = SpaceMath.GetGravityForce(starMass, 1f, toStar);
                 planetGravity = SpaceMath.GetGravityForce(planetMass, 1f, orbitRadius);
             } while (planetGravity / starGravity >= 1.5f);
             return index;

@@ -22,7 +22,7 @@ namespace SpaceEngine
         public static float Mult = 100000000f;
 
         //public static float Unit = 10000000f;
-        public static float Unit = 1000000000f;
+        public static float Unit = 100000000f;
         //public static float Unit = 1f;
         //public static float Unit = AU;
         //public static float Unit = AU / 2;
@@ -45,7 +45,6 @@ namespace SpaceEngine
             Vector3 direction = from.transform.position - to.transform.position;
             float force = GetGravityForce(to, from, direction);
             to.GetComponent<Rigidbody>().AddForce(direction.normalized * force * mult);
-            //to.GetComponent<Rigidbody>().AddForceAtPosition(direction.normalized * force * mult, to.transform.position - (direction.normalized * (to.transform.localScale.magnitude / 2) ));
         }
 
         public static void AddGravityForce(Rigidbody to, Rigidbody from, float mult)
@@ -53,7 +52,6 @@ namespace SpaceEngine
             Vector3 direction = from.position - to.position;
             float force = GetGravityForce(to, from, direction);
             to.AddForce(direction.normalized * force * mult);
-            //to.AddForceAtPosition(direction.normalized * force * mult, to.transform.position - (direction.normalized * (to.transform.localScale.magnitude / 2)));
         }
 
         public static float GetGravityForce(GameObject first, GameObject second)
@@ -171,6 +169,5 @@ namespace SpaceEngine
             }
             return tangent;
         }
-
     }
 }

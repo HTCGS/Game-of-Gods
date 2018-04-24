@@ -11,11 +11,16 @@ public class Star : MonoBehaviour
     [Space(5)]
     public GameObject PlanetPrefab;
 
+    public bool ShowEcoZone;
+
     [HideInInspector]
     public StarData Data;
 
     [HideInInspector]
     public PlanetPosition planetPosition;
+
+    [HideInInspector]
+    public FRange EcoZone;
 
     void Start()
     {
@@ -27,6 +32,7 @@ public class Star : MonoBehaviour
         if (Data == null) return;
         if (Data.IsEmpty()) Create();
         else Visualize();
+        EcoZone = Star.EcosphereZone(this);
     }
 
     void Update()
@@ -39,13 +45,15 @@ public class Star : MonoBehaviour
         else Data = StarData.GetData(Class);
         Data.Mutate();
         float index = Random.Range(0.0f, 1f);
+        Data.Luminosity.RandomValue(index, Mathf.Lerp);
         Data.Radius.RandomValue(index, Mathf.Lerp);
         Data.Color.RandomValue(index, Color.Lerp);
         Data.Mass.RandomValue(index, Mathf.Lerp);
         this.Evolution = Data.EvolutionState;
         this.Class = Data.StarClass;
         Visualize();
-        DestroyPlanets(); 
+        DestroyPlanets();
+        EcoZone = Star.EcosphereZone(this);
     }
 
     public void Evolve()
@@ -86,5 +94,19 @@ public class Star : MonoBehaviour
         this.GetComponent<Renderer>().sharedMaterial = new Material(Shader.Find("Standard"));
         this.GetComponent<Renderer>().sharedMaterial.color = Data.Color.Value;
         this.GetComponent<Rigidbody>().mass = Data.Mass.Value * SpaceMath.SolMass * SpaceMath.ToEngineMass;
+    }
+
+    public static FRange EcosphereZone(Star star)
+    {
+        FRange ecoZone = new FRange();
+        ecoZone.Value = Mathf.Sqrt(star.Data.Luminosity.Value);
+        ecoZone.From = ecoZone.Value * 0.95f;
+        ecoZone.To = ecoZone.Value * 1.35f;
+        return ecoZone;
+    }
+
+    public static FRange EcosphereZone(GameObject star)
+    {
+        return Star.EcosphereZone(star.GetComponent<Star>());
     }
 }

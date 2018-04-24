@@ -37,12 +37,17 @@ public class Planet : MonoBehaviour
     {
         if (Class == PlanetClass.Random) Data = PlanetData.GetData();
         else Data = PlanetData.GetData(Class);
-        float index = Random.Range(0.0f, 1f);
-        Data.Radius.RandomValue(index, Mathf.Lerp);
-        index = Random.Range(0.0f, 1f);
-        Data.Density.RandomValue(index, Mathf.Lerp);
-        this.Class = Data.PlanetClass;
+        PlanetValues();
         Visualize();
+        DestroySatellites();
+    }
+
+    public void Create(Zone zone)
+    {
+        Data = PlanetData.GetData(zone);
+        PlanetValues();
+        Visualize();
+        DestroySatellites();
     }
 
     public void AddSatellite()
@@ -50,10 +55,8 @@ public class Planet : MonoBehaviour
         float position = satellitePosition.NextPosition();
         if (position != 0)
         {
-            float radius = ((SpaceMath.AU * position) / SpaceMath.Unit);
+            float radius = ((10000000f * position) / SpaceMath.Unit);
             Vector3 pos = new Vector3(1, 0, 0).normalized * radius;
-            GameObject planet = Instantiate(SatellitePrefab, this.transform.position + pos, Quaternion.identity);
-            planet.transform.SetParent(this.transform);
             GameObject satellite = Instantiate(SatellitePrefab, this.transform.position + pos, Quaternion.identity);
             satellite.GetComponent<Planet>().Create();
             satellite.transform.SetParent(this.transform);
@@ -68,6 +71,15 @@ public class Planet : MonoBehaviour
             else Destroy(this.transform.GetChild(i).gameObject);
         }
         satellitePosition.GenerateSeed();
+    }
+
+    private void PlanetValues()
+    {
+        float index = Random.Range(0.0f, 1f);
+        Data.Radius.RandomValue(index, Mathf.Lerp);
+        index = Random.Range(0.0f, 1f);
+        Data.Density.RandomValue(index, Mathf.Lerp);
+        this.Class = Data.PlanetClass;
     }
 
     private void Visualize()

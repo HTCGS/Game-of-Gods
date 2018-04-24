@@ -81,18 +81,18 @@ public class MultyOrbit : MonoBehaviour
         //Debug.Log((SpaceMath.SolRadius * 109.25f) / SpaceMath.AU);
         //Debug.Log( 50f * SpaceMath.AU);
 
-
-        //PlanetPosition planetPosition = new PlanetPosition();
-        //for (int i = 0; i < 10; i++)
-        //{
-        //    Debug.Log(planetPosition.PositionAt(i));
-        //}
-
-        SatellitePosition satellitePosition = new SatellitePosition();
+        PlanetPosition planetPosition = new PlanetPosition();
+        planetPosition.GenerateSeed();
         for (int i = 0; i < 10; i++)
         {
-            //Debug.Log(satellitePosition.PositionAt(i));
+            Debug.Log(planetPosition.PositionAt(i));
         }
+
+        //SatellitePosition satellitePosition = new SatellitePosition();
+        //for (int i = 0; i < 10; i++)
+        //{
+        //    Debug.Log(satellitePosition.PositionAt(i));
+        //}
 
         //for (int i = 0; i < 10; i++)
         //{

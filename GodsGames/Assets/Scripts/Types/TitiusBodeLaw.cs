@@ -14,10 +14,7 @@ namespace SpaceEngine
         protected int index;
         protected int maxIndex;
 
-        public TitiusBodeLaw()
-        {
-            //GenerateSeed();
-        }
+        public TitiusBodeLaw() { }
 
         public TitiusBodeLaw(GameObject parent) :this()
         {
@@ -42,7 +39,9 @@ namespace SpaceEngine
 
         public virtual float PositionAt(int index)
         {
-            return (4f + (R * Mathf.Pow(C, index))) / 10f;
+            //return (4f + (R * Mathf.Pow(C, index))) / 10f;
+            return (R * Mathf.Pow(C, index)) / 10f;
+            //return (4f + (R / Mathf.Pow(C, index))) / 10f;
         }
 
         public virtual List<float> Positions()
