@@ -22,9 +22,15 @@ namespace SpaceEngine
             Star = parent.transform.parent.gameObject;
         }
 
+        public override void SetParent(GameObject parent)
+        {
+            this.Star = parent.transform.parent.gameObject;
+            base.SetParent(parent);
+        }
+
         public override void GenerateSeed()
         {
-            GenerateSeed(Random.Range(0.1f, 1f), Random.Range(1f, 2f));
+            GenerateSeed(Random.Range(1f, 10f), Random.Range(1f, 2f));
         }
 
         protected override int MaxPositionIndex()
@@ -39,8 +45,9 @@ namespace SpaceEngine
             {
                 index++;
                 float orbitRadius = PositionAt(index);
-                orbitRadius *= 10000000f;
+                orbitRadius *= 100000000f;
                 orbitRadius *= SpaceMath.Unit;
+                orbitRadius += (Parent.transform.lossyScale.x / 2f) * 2.45f;
                 float toStar = (Star.transform.position - Parent.transform.position).magnitude;
                 toStar += orbitRadius;
                 toStar *= SpaceMath.Unit;

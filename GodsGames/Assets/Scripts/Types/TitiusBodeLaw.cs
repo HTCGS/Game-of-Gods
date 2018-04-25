@@ -8,10 +8,14 @@ namespace SpaceEngine
     {
         public GameObject Parent;
 
+        [SerializeField]
         protected float R;
+        [SerializeField]
         protected float C;
 
+        [SerializeField]
         protected int index;
+        [SerializeField]
         protected int maxIndex;
 
         public TitiusBodeLaw() { }
@@ -24,6 +28,11 @@ namespace SpaceEngine
         public TitiusBodeLaw(Rigidbody parent) : this()
         {
             this.Parent = parent.gameObject;
+        }
+
+        public virtual void SetParent(GameObject parent)
+        {
+            this.Parent = parent;
         }
 
         public virtual float NextPosition()
@@ -39,9 +48,7 @@ namespace SpaceEngine
 
         public virtual float PositionAt(int index)
         {
-            //return (4f + (R * Mathf.Pow(C, index))) / 10f;
             return (R * Mathf.Pow(C, index)) / 10f;
-            //return (4f + (R / Mathf.Pow(C, index))) / 10f;
         }
 
         public virtual List<float> Positions()

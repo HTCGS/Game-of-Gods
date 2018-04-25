@@ -29,6 +29,7 @@ public class Star : MonoBehaviour
             planetPosition = new PlanetPosition(gameObject);
             planetPosition.GenerateSeed();
         }
+        else planetPosition.SetParent(gameObject);
         if (Data == null) return;
         if (Data.IsEmpty()) Create();
         else Visualize();

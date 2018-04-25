@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using SpaceEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -15,6 +13,7 @@ public class Planet : MonoBehaviour
     [HideInInspector]
     public PlanetData Data;
 
+    [HideInInspector]
     public SatellitePosition satellitePosition;
 
     void Start()
@@ -24,6 +23,7 @@ public class Planet : MonoBehaviour
             satellitePosition = new SatellitePosition(gameObject);
             satellitePosition.GenerateSeed();
         }
+        else satellitePosition.SetParent(gameObject);
         if (Data == null) return;
         if (Data.IsEmpty()) Create();
         else Visualize();
@@ -52,13 +52,14 @@ public class Planet : MonoBehaviour
 
     public void AddSatellite()
     {
+        if (Data.Radius.Value < 1000f) return;
         float position = satellitePosition.NextPosition();
         if (position != 0)
         {
-            float radius = ((10000000f * position) / SpaceMath.Unit);
-            Vector3 pos = new Vector3(1, 0, 0).normalized * radius;
+            float radius = ((100000000f * position) / SpaceMath.Unit) + ((this.transform.lossyScale.x / 2f) * 2.45f);
+            Vector3 pos = new Vector3(1, 0, 0) * radius;
             GameObject satellite = Instantiate(SatellitePrefab, this.transform.position + pos, Quaternion.identity);
-            satellite.GetComponent<Planet>().Create();
+            satellite.GetComponent<Satellite>().Create(Data.Radius.Value);
             satellite.transform.SetParent(this.transform);
         }
     }

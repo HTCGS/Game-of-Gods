@@ -24,11 +24,6 @@ public class PlanetEditor : Editor
             planet.Create();
         }
 
-        if (GUILayout.Button("Add satellite"))
-        {
-            planet.AddSatellite();
-        }
-
         GUILayout.Space(10f);
         if (GUILayout.Button("Add satellite"))
         {

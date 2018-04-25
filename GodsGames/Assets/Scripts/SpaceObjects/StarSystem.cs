@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using SpaceEngine;
 
@@ -12,14 +11,10 @@ public class StarSystem : MonoBehaviour
     [Space(5)]
     public float DistanceMult = 1;
 
-    public int Pos;
-    public int Childs;
-
     private FRange ecoZone;
 
     void Start()
     {
-        ecoZone = new FRange();
         if (this.transform.childCount == 0) Create();
     }
 
@@ -32,14 +27,11 @@ public class StarSystem : MonoBehaviour
         GameObject star = Instantiate(StarPrefab, this.transform.position, Quaternion.identity);
         star.transform.SetParent(this.transform);
         star.GetComponent<Star>().Create();
-        Star.EcosphereZone(star);
+        ecoZone = Star.EcosphereZone(star);
 
         PlanetPosition planetPosition = new PlanetPosition(star);
         planetPosition.GenerateSeed();
         List<float> positions = planetPosition.Positions();
-
-        Pos = positions.Count;
-
         float creationChance = (1f / positions.Count) * 3f;
         foreach (var position in positions)
         {
@@ -54,7 +46,6 @@ public class StarSystem : MonoBehaviour
                 planet.GetComponent<Planet>().Create(planetZone);
             }
         }
-        Childs = star.transform.childCount;
     }
 
     public void DestroyStarSystem()
