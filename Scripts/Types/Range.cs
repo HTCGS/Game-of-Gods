@@ -1,9 +1,9 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
+using UnityEngine;
 
 namespace SpaceEngine
 {
-    public class Range<T> 
+    public class Range<T>
     {
         public T From;
         public T To;
@@ -30,5 +30,21 @@ namespace SpaceEngine
             this.Value = Lerp(From, To, t);
             return this.Value;
         }
+    }
+
+    [System.Serializable]
+    public class FRange : Range<float>
+    {
+        public FRange() { }
+
+        public FRange(float from, float to) : base(from, to) { }
+    }
+
+    [System.Serializable]
+    public class CRange : Range<Color>
+    {
+        public CRange() { }
+
+        public CRange(Color from, Color to) : base(from, to) { }
     }
 }

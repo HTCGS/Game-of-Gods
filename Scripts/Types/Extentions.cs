@@ -1,17 +1,14 @@
-﻿using UnityEngine;
-
-namespace SpaceEngine
+﻿namespace SpaceEngine
 {
     static class Extentions
     {
-        public static bool IsOneOf(this StarClass starClass, params StarClass[] allowedClasses)
+        public static bool IsOneOf(this StarClass starClass, params StarClass[] starClasses)
         {
-            foreach (var allowed in allowedClasses)
+            foreach (var oneOf in starClasses)
             {
-                if (starClass == allowed) return true;
+                if (starClass == oneOf) return true;
             }
             return false;
         }
-
     }
 }

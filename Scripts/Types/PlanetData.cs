@@ -16,8 +16,8 @@ namespace SpaceEngine
                 return new PlanetData
                 {
                     Radius = new FRange(500000f, 5000000f),
-                    Density = new FRange(3000f, 4000f),
-                    PlanetClass = PlanetClass.A
+                        Density = new FRange(3000f, 4000f),
+                        PlanetClass = PlanetClass.A
                 };
             }
         }
@@ -29,8 +29,8 @@ namespace SpaceEngine
                 return new PlanetData
                 {
                     Radius = new FRange(500000f, 5000000f),
-                    Density = new FRange(4000f, 6000f),
-                    PlanetClass = PlanetClass.B
+                        Density = new FRange(4000f, 6000f),
+                        PlanetClass = PlanetClass.B
                 };
             }
         }
@@ -42,8 +42,8 @@ namespace SpaceEngine
                 return new PlanetData
                 {
                     Radius = new FRange(500000f, 5000000f),
-                    Density = new FRange(3200f, 4200f),
-                    PlanetClass = PlanetClass.C
+                        Density = new FRange(3200f, 4200f),
+                        PlanetClass = PlanetClass.C
                 };
             }
         }
@@ -55,8 +55,8 @@ namespace SpaceEngine
                 return new PlanetData
                 {
                     Radius = new FRange(50000f, 500000f),
-                    Density = new FRange(2000f, 3500f),
-                    PlanetClass = PlanetClass.D
+                        Density = new FRange(2000f, 3500f),
+                        PlanetClass = PlanetClass.D
                 };
             }
         }
@@ -68,8 +68,8 @@ namespace SpaceEngine
                 return new PlanetData
                 {
                     Radius = new FRange(5000000f, 15000000f),
-                    Density = new FRange(6200f, 12000f),
-                    PlanetClass = PlanetClass.E
+                        Density = new FRange(6200f, 12000f),
+                        PlanetClass = PlanetClass.E
                 };
             }
         }
@@ -81,8 +81,8 @@ namespace SpaceEngine
                 return new PlanetData
                 {
                     Radius = new FRange(5000000f, 15000000f),
-                    Density = new FRange(6200f, 12000f),
-                    PlanetClass = PlanetClass.F
+                        Density = new FRange(6200f, 12000f),
+                        PlanetClass = PlanetClass.F
                 };
             }
         }
@@ -94,8 +94,8 @@ namespace SpaceEngine
                 return new PlanetData
                 {
                     Radius = new FRange(5000000f, 15000000f),
-                    Density = new FRange(6200f, 12000f),
-                    PlanetClass = PlanetClass.G
+                        Density = new FRange(6200f, 12000f),
+                        PlanetClass = PlanetClass.G
                 };
             }
         }
@@ -107,8 +107,8 @@ namespace SpaceEngine
                 return new PlanetData
                 {
                     Radius = new FRange(4000000f, 7500000f),
-                    Density = new FRange(4000f, 5200f),
-                    PlanetClass = PlanetClass.H
+                        Density = new FRange(4000f, 5200f),
+                        PlanetClass = PlanetClass.H
                 };
             }
         }
@@ -120,8 +120,8 @@ namespace SpaceEngine
                 return new PlanetData
                 {
                     Radius = new FRange(15000000f, 50000000f),
-                    Density = new FRange(400f, 1700f),
-                    PlanetClass = PlanetClass.I
+                        Density = new FRange(400f, 1700f),
+                        PlanetClass = PlanetClass.I
                 };
             }
         }
@@ -133,8 +133,8 @@ namespace SpaceEngine
                 return new PlanetData
                 {
                     Radius = new FRange(25000000f, 70000000f),
-                    Density = new FRange(600f, 1700f),
-                    PlanetClass = PlanetClass.J
+                        Density = new FRange(600f, 1700f),
+                        PlanetClass = PlanetClass.J
                 };
             }
         }
@@ -146,8 +146,8 @@ namespace SpaceEngine
                 return new PlanetData
                 {
                     Radius = new FRange(2500000f, 5000000f),
-                    Density = new FRange(3000f, 4000f),
-                    PlanetClass = PlanetClass.K
+                        Density = new FRange(3000f, 4000f),
+                        PlanetClass = PlanetClass.K
                 };
             }
         }
@@ -159,8 +159,8 @@ namespace SpaceEngine
                 return new PlanetData
                 {
                     Radius = new FRange(5000000f, 7500000f),
-                    Density = new FRange(4000f, 5200f),
-                    PlanetClass = PlanetClass.L
+                        Density = new FRange(4000f, 5200f),
+                        PlanetClass = PlanetClass.L
                 };
             }
         }
@@ -172,8 +172,8 @@ namespace SpaceEngine
                 return new PlanetData
                 {
                     Radius = new FRange(5000000f, 7500000f),
-                    Density = new FRange(3500f, 6000f),
-                    PlanetClass = PlanetClass.M
+                        Density = new FRange(3500f, 6000f),
+                        PlanetClass = PlanetClass.M
                 };
             }
         }
@@ -185,8 +185,8 @@ namespace SpaceEngine
                 return new PlanetData
                 {
                     Radius = new FRange(5000000f, 7500000f),
-                    Density = new FRange(6000f, 7000f),
-                    PlanetClass = PlanetClass.N
+                        Density = new FRange(6000f, 7000f),
+                        PlanetClass = PlanetClass.N
                 };
             }
         }
@@ -198,8 +198,8 @@ namespace SpaceEngine
                 return new PlanetData
                 {
                     Radius = new FRange(5000000f, 7500000f),
-                    Density = new FRange(3500f, 6000f),
-                    PlanetClass = PlanetClass.O
+                        Density = new FRange(3500f, 6000f),
+                        PlanetClass = PlanetClass.O
                 };
             }
         }
@@ -211,8 +211,8 @@ namespace SpaceEngine
                 return new PlanetData
                 {
                     Radius = new FRange(5000000f, 7500000f),
-                    Density = new FRange(3500f, 6000f),
-                    PlanetClass = PlanetClass.P
+                        Density = new FRange(3500f, 6000f),
+                        PlanetClass = PlanetClass.P
                 };
             }
         }
@@ -224,8 +224,8 @@ namespace SpaceEngine
                 return new PlanetData
                 {
                     Radius = new FRange(2000000f, 7500000f),
-                    Density = new FRange(2500f, 5000f),
-                    PlanetClass = PlanetClass.Q
+                        Density = new FRange(2500f, 5000f),
+                        PlanetClass = PlanetClass.Q
                 };
             }
         }
@@ -237,8 +237,8 @@ namespace SpaceEngine
                 return new PlanetData
                 {
                     Radius = new FRange(50000000f, 64400000f),
-                    Density = new FRange(10000f, 100000f),
-                    PlanetClass = PlanetClass.S
+                        Density = new FRange(10000f, 100000f),
+                        PlanetClass = PlanetClass.S
                 };
             }
         }
@@ -250,8 +250,8 @@ namespace SpaceEngine
                 return new PlanetData
                 {
                     Radius = new FRange(500000f, 5000000f),
-                    Density = new FRange(7500f, 13000f),
-                    PlanetClass = PlanetClass.X
+                        Density = new FRange(7500f, 13000f),
+                        PlanetClass = PlanetClass.X
                 };
             }
         }
@@ -263,8 +263,8 @@ namespace SpaceEngine
                 return new PlanetData
                 {
                     Radius = new FRange(5000000f, 7500000f),
-                    Density = new FRange(7500f, 13000f),
-                    PlanetClass = PlanetClass.Y
+                        Density = new FRange(7500f, 13000f),
+                        PlanetClass = PlanetClass.Y
                 };
             }
         }
@@ -276,7 +276,7 @@ namespace SpaceEngine
 
         public static PlanetData GetData()
         {
-            PlanetClass planetClass = (PlanetClass)Random.Range(1, 21);
+            PlanetClass planetClass = (PlanetClass) Random.Range(1, 21);
             return GetData(planetClass);
         }
 
