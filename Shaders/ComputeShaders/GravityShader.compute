@@ -1,0 +1,41 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+struct GravityData
+{
+    int x;
+    int y;
+    int z;
+};
+
+RWStructuredBuffer<float3> Positions;
+
+RWStructuredBuffer<float> Masses;
+
+RWStructuredBuffer<GravityData> Data;
+
+float Mult;
+float Unit;
+
+int NumOfObjects;
+
+[numthreads(1,1,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    if(id.x != id.y)
+    {
+        float3 distance = Positions[id.y] - Positions[id.x];
+
+        float force = (6.67408 * pow(10, -11)) * ((Masses[id.x] * Masses[id.y]) / pow(length(distance) * Unit, 2));
+        force *= Mult;
+        distance =  normalize(distance) * force;
+
+        int x = distance.x * 1000;
+        int y = distance.y * 1000;
+        int z = distance.z * 1000;
+
+        InterlockedAdd(Data[id.x].x, x);
+        InterlockedAdd(Data[id.x].y, y);
+        InterlockedAdd(Data[id.x].z, z);
+    }
+} 
