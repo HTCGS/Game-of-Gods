@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using SpaceEngine;
+﻿using SpaceEngine;
+using UnityEngine;
 
 namespace SpaceEngine
 {
@@ -19,10 +19,10 @@ namespace SpaceEngine
 
         public static readonly float ToEngineMass = Mathf.Pow(10, 9) / (250 * SpaceMath.SolMass);
 
-        public static float Mult = 100000000f;
+        public static float Mult = 1000000000f;
 
         //public static float Unit = 10000000f;
-        public static float Unit = 100000000f;
+        public static float Unit = 1f;
         //public static float Unit = 1f;
         //public static float Unit = AU;
         //public static float Unit = AU / 2;
@@ -149,7 +149,7 @@ namespace SpaceEngine
             float alpha = Mathf.Atan((point.transform.position.z - circle.transform.position.z) / (point.transform.position.x - circle.transform.position.x));
             float beta = Mathf.Acos(radius /
                 (Mathf.Sqrt(Mathf.Pow(point.transform.position.x - circle.transform.position.x, 2) +
-                Mathf.Pow(point.transform.position.z - circle.transform.position.z, 2))));
+                    Mathf.Pow(point.transform.position.z - circle.transform.position.z, 2))));
             float gamma = 2 * Mathf.PI - alpha - beta;
 
             Vector3 toCircleDirection = circle.transform.position - point.transform.position;

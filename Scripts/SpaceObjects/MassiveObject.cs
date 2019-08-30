@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using SpaceEngine;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class MassiveObject : MonoBehaviour
@@ -23,6 +23,11 @@ public class MassiveObject : MonoBehaviour
             if (sat != null)
             {
                 SpaceMath.AddGravityForce(sat, rb, SpaceMath.Mult);
+                // float gravity = SpaceMath.GetGravityForce(sat, rb) * SpaceMath.Mult * Time.fixedDeltaTime;
+                // Vector3 gravityVector = this.transform.position - sat.position;
+                // gravityVector *= gravity;
+                // sat.velocity += gravityVector;
+
             }
         }
     }

@@ -24,7 +24,8 @@ public class DisplayOrbit : MonoBehaviour
         LineRend.SetPosition(0, this.transform.position);
         PointsIndex = 0;
         ObjectRadius = this.transform.localScale.x / 2;
-        LineRend.material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+        // LineRend.material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+        LineRend.material.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
 
         LD = this.transform.position;
         LU = this.transform.position;
@@ -44,7 +45,7 @@ public class DisplayOrbit : MonoBehaviour
             LineRend.SetPositions(points);
             LineRend.SetPosition(PointsIndex, this.transform.position);
         }
-        GetEccentricity();
+        // GetEccentricity();
     }
 
     private void GetEccentricity()
@@ -72,7 +73,7 @@ public class DisplayOrbit : MonoBehaviour
 
         B = (RU - LU).magnitude / 2;
         A = (RD - RU).magnitude / 2;
-        if(B > A)
+        if (B > A)
         {
             float tmp = B;
             B = A;
@@ -80,9 +81,9 @@ public class DisplayOrbit : MonoBehaviour
         }
         Eccentricity = Mathf.Sqrt(Mathf.Abs(1 - ((B * B) / (A * A))));
 
-        Debug.DrawLine(LU, RU, Color.white);
-        Debug.DrawLine(RU, RD, Color.white);
-        Debug.DrawLine(RD, LD, Color.white);
-        Debug.DrawLine(LD, LU, Color.white);
+        // Debug.DrawLine(LU, RU, Color.white);
+        // Debug.DrawLine(RU, RD, Color.white);
+        // Debug.DrawLine(RD, LD, Color.white);
+        // Debug.DrawLine(LD, LU, Color.white);
     }
 }

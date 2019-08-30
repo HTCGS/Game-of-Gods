@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using SpaceEngine;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Orbit : MonoBehaviour
@@ -31,12 +31,12 @@ public class Orbit : MonoBehaviour
         if (RandomEccentricity)
         {
             orbitVelocity += Random.Range(0f, deltaForce * 0.99f);
-            orbitVelocity *= 1.013f;
+            //orbitVelocity *= 1.013f;
         }
         else
         {
             orbitVelocity += deltaForce * Eccentricity;
-            orbitVelocity *= 1.013f;
+            //orbitVelocity *= 1.013f;
         }
 
         velocityParam = ForceParametr(SpaceMath.Mult, SpaceMath.Unit);
@@ -51,15 +51,23 @@ public class Orbit : MonoBehaviour
             Vector3 toParentDirection = Parent.transform.position - this.transform.position;
             Vector3 velocityVector = GetSpaceVelocityVector(toParentDirection, OrbitDirection);
             velocityVector *= orbitVelocity * velocityParam;
+            //velocityVector *= orbitVelocity;
+
+            //velocityVector *= 0.25f;
+
+            velocityVector /= 50f;
+
+            // rb.velocity = velocityVector * Time.fixedDeltaTime;
+
             rb.AddForce(velocityVector, ForceMode.Acceleration);
             start = false;
 
-            List<Rigidbody> sats = MassiveObject.FindMassObjects(gameObject);
-            foreach (var sat in sats)
-            {
-                Rigidbody satRB = sat.GetComponent<Rigidbody>();
-                satRB.AddForce(velocityVector, ForceMode.Acceleration);
-            }
+            // List<Rigidbody> sats = MassiveObject.FindMassObjects(gameObject);
+            // foreach (var sat in sats)
+            // {
+            //     Rigidbody satRB = sat.GetComponent<Rigidbody>();
+            //     satRB.AddForce(velocityVector, ForceMode.Acceleration);
+            // }
         }
         Destroy(this);
     }
