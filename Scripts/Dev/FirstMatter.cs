@@ -47,11 +47,13 @@ public class FirstMatter : MonoBehaviour
         sourcePositions[0] = this.transform.position;
         for (int i = 1; i < Sources; i++)
         {
-            Vector3 dir = Random.insideUnitSphere * Random.Range(0, 2 * Radius);
+            // Vector3 dir = Random.insideUnitSphere * Random.Range(0, 2 * Radius);
+            Vector3 dir = Random.insideUnitSphere * Radius;
             //Vector2 shift = Random.insideUnitCircle * Random.Range(0, 2 * Radius);
             //Vector3 dir = new Vector3(shift.x, 0, shift.y);
             int from = Random.Range(0, i);
-            sourcePositions[i] = sourcePositions[from] + dir;
+            // sourcePositions[i] = sourcePositions[from] + dir;
+            sourcePositions[i] = sourcePositions[i - 1] + dir;
         }
 
         // Objects[0] = Instantiate(Prefab, sourcePositions[0], Quaternion.identity);
@@ -85,11 +87,11 @@ public class FirstMatter : MonoBehaviour
                 //         //Objects[j].transform.position += new Vector3(circlePoints.x, (0.01f * Random.Range(-1, 1)), circlePoints.y) * Radius;
                 //         //Objects[j].transform.position += new Vector3(circlePoints.x, (0.01f * j), circlePoints.y) * Radius;
 
-                //         Objects[j].transform.SetParent(this.transform);
-                //         //float mass = Random.Range(1, 100);
+                Objects[j].transform.SetParent(this.transform);
+                float mass = Random.Range(1, 100);
                 //         //float mass = Random.Range(1, 10);
                 //         float mass = 1;
-                //         Objects[j].GetComponent<Rigidbody>().mass = mass;
+                Objects[j].GetComponent<Rigidbody>().mass = mass;
                 //         //Objects[j].transform.localScale = Vector3.Lerp(new Vector3(0.01f, 0.01f, 0.01f), new Vector3(0.1f, 0.1f, 0.1f), ((mass - 10) / 290));
                 //         //Objects[j].transform.localScale = Vector3.Lerp(new Vector3(0.01f, 0.01f, 0.01f), new Vector3(0.1f, 0.1f, 0.1f), ((mass - 1) / 10));
 

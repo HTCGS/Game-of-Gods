@@ -22,6 +22,7 @@ public class GravityManager : MonoBehaviour
     private GravityData[] data;
 
     private Vector3 force = Vector3.zero;
+    private float fromInt = Mathf.Pow(10, 6);
 
     // Start is called before the first frame update
     void Start()
@@ -84,9 +85,9 @@ public class GravityManager : MonoBehaviour
 
         for (int i = 0; i < GravityManager.Objects.Count; i++)
         {
-            force.x = data[i].x / 1000f;
-            force.y = data[i].y / 1000f;
-            force.z = data[i].z / 1000f;
+            force.x = data[i].x / this.fromInt;
+            force.y = data[i].y / this.fromInt;
+            force.z = data[i].z / this.fromInt;
             GravityManager.Objects[i].rb.AddForce(force);
         }
     }

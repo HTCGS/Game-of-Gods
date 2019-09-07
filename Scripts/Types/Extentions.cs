@@ -1,4 +1,7 @@
-﻿namespace SpaceEngine
+﻿using System;
+using UnityEngine;
+
+namespace SpaceEngine
 {
     static class Extentions
     {

@@ -38,6 +38,8 @@ public class MassiveObject : MonoBehaviour
         for (int i = 0; i < root.transform.childCount; i++)
         {
             GameObject child = root.transform.GetChild(i).gameObject;
+            if (child.activeSelf == false) continue;
+
             Rigidbody childRB = child.GetComponent<Rigidbody>();
             if (childRB != null)
             {
