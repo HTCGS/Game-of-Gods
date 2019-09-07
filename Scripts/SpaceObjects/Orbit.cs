@@ -16,7 +16,6 @@ public class Orbit : MonoBehaviour
     private float orbitVelocity;
     private float velocityParam;
 
-    private bool start;
     private Rigidbody rb;
 
     void Start()
@@ -28,48 +27,41 @@ public class Orbit : MonoBehaviour
         float SecondVelocity = Mathf.Sqrt(2) * orbitVelocity;
         float deltaForce = (SecondVelocity - orbitVelocity);
 
-        if (RandomEccentricity)
-        {
-            orbitVelocity += Random.Range(0f, deltaForce * 0.99f);
-            //orbitVelocity *= 1.013f;
-        }
-        else
-        {
-            orbitVelocity += deltaForce * Eccentricity;
-            //orbitVelocity *= 1.013f;
-        }
+        if (RandomEccentricity) orbitVelocity += Random.Range(0f, deltaForce);
+        else orbitVelocity += deltaForce * Eccentricity;
 
         velocityParam = ForceParametr(SpaceMath.Mult, SpaceMath.Unit);
+
+        Vector3 toParentDirection = Parent.transform.position - this.transform.position;
+        Vector3 velocityVector = GetOrbitalRotationVector(toParentDirection, OrbitDirection);
+        velocityVector *= orbitVelocity * velocityParam;
+
+        List<Rigidbody> sats = MassiveObject.FindMassObjects(gameObject);
+        foreach (var sat in sats)
+        {
+            Rigidbody satRB = sat.GetComponent<Rigidbody>();
+            satRB.AddForce(velocityVector, ForceMode.VelocityChange);
+        }
+
         rb = GetComponent<Rigidbody>();
-        start = true;
+        rb.AddForce(velocityVector, ForceMode.VelocityChange);
+
+        Vector3 ppp = this.transform.position - Parent.transform.position;
+        Vector3 end = Quaternion.AngleAxis(25f, Vector3.down) * ppp;
+        print(end);
+
+        end = Quaternion.AngleAxis(25f, Vector3.down) * ppp;
+        print(end);
+
+        end = Quaternion.AngleAxis(25f, Vector3.down) * ppp;
+        print(end);
+
+        Destroy(this);
     }
 
     void FixedUpdate()
     {
-        if (start)
-        {
-            Vector3 toParentDirection = Parent.transform.position - this.transform.position;
-            Vector3 velocityVector = GetSpaceVelocityVector(toParentDirection, OrbitDirection);
-            velocityVector *= orbitVelocity * velocityParam;
-            //velocityVector *= orbitVelocity;
 
-            //velocityVector *= 0.25f;
-
-            velocityVector /= 50f;
-
-            // rb.velocity = velocityVector * Time.fixedDeltaTime;
-
-            rb.AddForce(velocityVector, ForceMode.Acceleration);
-            start = false;
-
-            // List<Rigidbody> sats = MassiveObject.FindMassObjects(gameObject);
-            // foreach (var sat in sats)
-            // {
-            //     Rigidbody satRB = sat.GetComponent<Rigidbody>();
-            //     satRB.AddForce(velocityVector, ForceMode.Acceleration);
-            // }
-        }
-        Destroy(this);
     }
 
     private float ForceParametr(float mult, float unit)
@@ -83,10 +75,12 @@ public class Orbit : MonoBehaviour
         }
 
         int numSize = mult.ToString("F").Length - 4;
-        if (numSize % 2 == 0) param = 50f;
-        else param = 15.8f;
+        if (numSize % 2 == 0) param = 1f;
+        else param = 3.169f;
 
-        numSize /= 2;
+        if (param == 1f) numSize /= 2;
+        else numSize = (numSize / 2) + 1;
+
         for (int i = 0; i < numSize; i++)
         {
             param /= 10;
@@ -94,13 +88,30 @@ public class Orbit : MonoBehaviour
         return param;
     }
 
-    public Vector3 GetSpaceVelocityVector(Vector3 toParentVector, Rotation direction)
+    public void SetParent()
+    {
+        GameObject parent = gameObject.transform.parent.gameObject;
+        while (parent)
+        {
+            Rigidbody parentRB = parent.GetComponent<Rigidbody>();
+            MassiveObject parentMO = parent.GetComponent<MassiveObject>();
+            if (parentRB && parentMO)
+            {
+                this.Parent = parent;
+                break;
+            }
+            parent = parent.transform.parent.gameObject;
+        }
+    }
+
+    public Vector3 GetOrbitalRotationVector(Vector3 toParentVector, Rotation direction)
     {
         Vector3 toCrossVector = Vector3.zero;
         switch (direction)
         {
             case Rotation.Parent:
-                break;
+                Orbit parentObrit = Parent.GetComponent<Orbit>();
+                return GetOrbitalRotationVector(toParentVector, parentObrit.OrbitDirection);
             case Rotation.Right:
                 toCrossVector = Parent.transform.right;
                 break;
@@ -122,6 +133,6 @@ public class Orbit : MonoBehaviour
             default:
                 break;
         }
-        return Vector3.Cross(toParentVector, toCrossVector).normalized;
+        return -Vector3.Cross(toParentVector, toCrossVector).normalized;
     }
 }

@@ -30,9 +30,10 @@ void CSMain (uint3 id : SV_DispatchThreadID)
         force *= Mult;
         distance =  normalize(distance) * force;
 
-        int x = distance.x * 1000;
-        int y = distance.y * 1000;
-        int z = distance.z * 1000;
+        int toInt = pow(10, 6);
+        int x = distance.x * toInt;
+        int y = distance.y * toInt;
+        int z = distance.z * toInt;
 
         InterlockedAdd(Data[id.x].x, x);
         InterlockedAdd(Data[id.x].y, y);

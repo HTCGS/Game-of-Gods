@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
@@ -50,29 +51,17 @@ public class DisplayOrbit : MonoBehaviour
 
     private void GetEccentricity()
     {
-        if (this.transform.position.x > RU.x)
-        {
-            RU.x = this.transform.position.x;
-            RD.x = this.transform.position.x;
-        }
-        if (this.transform.position.z > RU.z)
-        {
-            LU.z = this.transform.position.z;
-            RU.z = this.transform.position.z;
-        }
-        if (this.transform.position.z < RD.z)
-        {
-            LD.z = this.transform.position.z;
-            RD.z = this.transform.position.z;
-        }
-        if (this.transform.position.x < LD.x)
-        {
-            LU.x = this.transform.position.x;
-            LD.x = this.transform.position.x;
-        }
+        Vector3[] points = new Vector3[LineRend.positionCount];
+        LineRend.GetPositions(points);
 
-        B = (RU - LU).magnitude / 2;
-        A = (RD - RU).magnitude / 2;
+        Vector3 up = points.Where(v => v.z == points.Max(p => p.z)).First();
+        Vector3 down = points.Where(v => v.z == points.Min(p => p.z)).First();
+        Vector3 left = points.Where(v => v.x == points.Min(p => p.x)).First();
+        Vector3 right = points.Where(v => v.x == points.Max(p => p.x)).First();
+
+        B = (up - down).magnitude / 2;
+        A = (left - right).magnitude / 2;
+
         if (B > A)
         {
             float tmp = B;

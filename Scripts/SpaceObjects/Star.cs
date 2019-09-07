@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using SpaceEngine;
+﻿using SpaceEngine;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [ExecuteInEditMode]
@@ -36,9 +36,7 @@ public class Star : MonoBehaviour
         EcoZone = Star.EcosphereZone(this);
     }
 
-    void Update()
-    {
-    }
+    void Update() { }
 
     public void Create()
     {

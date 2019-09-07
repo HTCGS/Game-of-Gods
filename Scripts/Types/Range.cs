@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace SpaceEngine
 {
+
     public class Range<T>
     {
         public T From;

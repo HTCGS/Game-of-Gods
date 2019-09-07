@@ -11,15 +11,11 @@ public class Gravity : MonoBehaviour
 
     [HideInInspector]
     public Rigidbody rb;
-    public static List<Gravity> GravityObjects = new List<Gravity>();
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         GravityManager.Objects.Add(this);
-
-        Gravity.GravityObjects.Add(this);
-
         Destroy(this);
     }
 

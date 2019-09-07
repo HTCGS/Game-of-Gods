@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using SpaceEngine;
 using UnityEditor;
-using SpaceEngine;
+using UnityEngine;
 
 [CustomEditor(typeof(Star))]
 public class StarEditor : Editor
@@ -9,14 +9,14 @@ public class StarEditor : Editor
     {
         base.OnInspectorGUI();
         GUILayout.Space(7f);
-        
+
         Star star = target as Star;
 
         if (GUILayout.Button("Create"))
         {
             star.Create();
         }
-        
+
         if (GUILayout.Button("Create random star"))
         {
             star.Class = SpaceEngine.StarClass.Random;

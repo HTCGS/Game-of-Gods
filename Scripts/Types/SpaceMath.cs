@@ -20,10 +20,13 @@ namespace SpaceEngine
         public static readonly float ToEngineMass = Mathf.Pow(10, 9) / (250 * SpaceMath.SolMass);
 
         public static float Mult = 1000000000f;
+        // public static float Mult = 100000f;
+        // public static float Mult = 1000000f;
+        // public static float Mult = 1f;
 
         //public static float Unit = 10000000f;
+        // public static float Unit = 10f;
         public static float Unit = 1f;
-        //public static float Unit = 1f;
         //public static float Unit = AU;
         //public static float Unit = AU / 2;
         //public static float Unit = 1000f;
