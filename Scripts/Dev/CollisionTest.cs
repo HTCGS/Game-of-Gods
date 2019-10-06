@@ -57,57 +57,14 @@ public class CollisionTest : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (time == 25)
-        {
-            Distance = (this.transform.position - pos).magnitude;
-            pos = this.transform.position;
-        }
-        time++;
+        // if (time == 25)
+        // {
+        //     Distance = (this.transform.position - pos).magnitude;
+        //     pos = this.transform.position;
+        // }
+        // time++;
+
+        int[] a = new int[30000];
+
     }
-}
-
-public interface IFruit<T>
-{
-
-}
-
-public class FF : Apple<Object>
-{
-
-}
-
-// [System.Serializable]
-// public class Apple<T> : IFruit<T>
-// {
-//     public T Weight
-//     {
-//         get =>
-//             throw new System.NotImplementedException();
-//         set =>
-//             throw new System.NotImplementedException();
-//     }
-// }
-
-[System.Serializable]
-public class Fruit
-{
-    public object Weight;
-}
-
-[System.Serializable]
-public abstract class Apple
-{
-
-}
-
-[System.Serializable]
-public class Apple<T> : Apple
-{
-    public T Weight;
-}
-
-[System.Serializable]
-public class BigApple : Apple<float>
-{
-
 }

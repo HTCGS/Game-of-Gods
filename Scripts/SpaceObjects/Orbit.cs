@@ -45,17 +45,6 @@ public class Orbit : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
         rb.AddForce(velocityVector, ForceMode.VelocityChange);
-
-        Vector3 ppp = this.transform.position - Parent.transform.position;
-        Vector3 end = Quaternion.AngleAxis(25f, Vector3.down) * ppp;
-        print(end);
-
-        end = Quaternion.AngleAxis(25f, Vector3.down) * ppp;
-        print(end);
-
-        end = Quaternion.AngleAxis(25f, Vector3.down) * ppp;
-        print(end);
-
         Destroy(this);
     }
 
@@ -93,9 +82,10 @@ public class Orbit : MonoBehaviour
         GameObject parent = gameObject.transform.parent.gameObject;
         while (parent)
         {
-            Rigidbody parentRB = parent.GetComponent<Rigidbody>();
-            MassiveObject parentMO = parent.GetComponent<MassiveObject>();
-            if (parentRB && parentMO)
+            bool has2Components = parent.With(p => p.GetComponent<Rigidbody>())
+                .With(p => p.GetComponent<MassiveObject>())
+                .Return(p => true);
+            if (has2Components)
             {
                 this.Parent = parent;
                 break;

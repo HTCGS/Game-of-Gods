@@ -52,8 +52,8 @@ public class FirstMatter : MonoBehaviour
             //Vector2 shift = Random.insideUnitCircle * Random.Range(0, 2 * Radius);
             //Vector3 dir = new Vector3(shift.x, 0, shift.y);
             int from = Random.Range(0, i);
-            // sourcePositions[i] = sourcePositions[from] + dir;
-            sourcePositions[i] = sourcePositions[i - 1] + dir;
+            sourcePositions[i] = sourcePositions[from] + dir;
+            // sourcePositions[i] = sourcePositions[i - 1] + dir;
         }
 
         // Objects[0] = Instantiate(Prefab, sourcePositions[0], Quaternion.identity);
@@ -74,6 +74,10 @@ public class FirstMatter : MonoBehaviour
             {
                 Objects[j] = Instantiate(Prefab, sourcePositions[i], Quaternion.identity);
                 Objects[j].transform.position += Random.insideUnitSphere * Radius;
+
+                // Vector2 rand = Random.insideUnitCircle;
+                // Vector2 circlePoints = (rand * Radius) + (rand * 5);
+                // Objects[j].transform.position += new Vector3(circlePoints.x, 0, circlePoints.y);
 
                 //         Vector3 pos = Random.insideUnitSphere * Radius;
                 //         if (!IsRegularShape) pos += Random.insideUnitSphere * Random.Range(0, Radius);
@@ -100,6 +104,13 @@ public class FirstMatter : MonoBehaviour
                 //         //Objects[j].transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
             }
         }
+
+        // for (int i = 0; i < ObjectNum; i++)
+        // {
+        //     Objects[i].GetComponent<Orbit>().enabled = true;
+        // }
+
+        // gameObject.GetComponent<MassiveObject>().enabled = true;
         Destroy(this);
         // //this.GetComponent<MassiveObject>().enabled = true;
     }

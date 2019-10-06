@@ -29,6 +29,8 @@ public class OrbitEditor : Editor
         Vector3 direction = orbit.transform.position + (toParent.normalized * (2 * a));
 
         Vector3 bSide = orbit.GetOrbitalRotationVector(toParent, orbit.OrbitDirection).normalized;
+        if (bSide == Vector3.zero) return;
+
         Vector3 leftStartCorner = orbit.transform.position + (bSide * b);
         Vector3 rightStartCorner = orbit.transform.position - (bSide * b);
 
@@ -53,13 +55,11 @@ public class OrbitEditor : Editor
         Handles.DrawWireArc(center, norm, start, 40, b * 1.1f);
 
         Vector3 arrowPos = center + (bSide * (b * 1.1f));
+        arrowPos -= orbit.Parent.transform.position;
         Vector3 end = Quaternion.AngleAxis(-25f, norm) * arrowPos;
         Vector3 end2 = Quaternion.AngleAxis(-26f, norm) * arrowPos;
-        // Vector3 end = center;
-        // Vector3 end2 = Quaternion.AngleAxis(25f, norm) * (orbit.transform.position - center);
-        // Vector3 end2 = Quaternion.AngleAxis(25f, norm) * orbit.transform.position;
-        // end2 = orbit.transform.TransformPoint(end2);
-        // Debug.Log(norm);
+        end += orbit.Parent.transform.position;
+        end2 += orbit.Parent.transform.position;
 
         float orbitSize = toParent.magnitude;
         float dirCapSize = 5;
@@ -67,12 +67,7 @@ public class OrbitEditor : Editor
         if (orbitSize < 12f) dirCapSize = 2;
         if (orbitSize < 6f) dirCapSize = 1;
         if (orbitSize < 2f) dirCapSize = 0.5f;
-        // Handles.ArrowHandleCap(0, end2, Quaternion.LookRotation(end - end2), dirCapSize, EventType.Repaint);
-        Handles.ArrowHandleCap(0, start, Quaternion.LookRotation(end - end2), dirCapSize, EventType.Repaint);
-
-        // Debug.Log(end2);
-        // Debug.Log(orbit.transform.TransformPoint(end2));
-        // Debug.Log(end2);
+        Handles.ArrowHandleCap(0, end2, Quaternion.LookRotation(end - end2), dirCapSize, EventType.Repaint);
 
         //Scale
 

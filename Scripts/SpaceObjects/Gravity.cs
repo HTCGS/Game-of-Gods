@@ -15,7 +15,7 @@ public class Gravity : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        GravityManager.Objects.Add(this);
+        GravityManager.Objects.Add(rb);
         Destroy(this);
     }
 

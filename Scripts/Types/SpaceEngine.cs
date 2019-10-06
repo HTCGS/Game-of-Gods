@@ -14,4 +14,6 @@ namespace SpaceEngine
 
     public enum Zone { Hot, Eco, Cold }
 
+    public enum CalculationDevice { CPU, GPU }
+
 }
