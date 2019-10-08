@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using SpaceEngine;
+﻿using SpaceEngine;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [ExecuteInEditMode]
@@ -29,9 +29,7 @@ public class Planet : MonoBehaviour
         else Visualize();
     }
 
-    void Update()
-    {
-    }
+    void Update() { }
 
     public void Create()
     {
@@ -88,6 +86,6 @@ public class Planet : MonoBehaviour
         float radius = (Data.Radius.Value / SpaceMath.Unit) * 2f;
         this.transform.localScale = new Vector3(radius, radius, radius);
         this.GetComponent<Renderer>().sharedMaterial = new Material(Shader.Find("Standard"));
-        this.GetComponent<Rigidbody>().mass = SpaceMath.GetSphereMass(Data.Radius.Value, Data.Density.Value) * SpaceMath.ToEngineMass;
+        this.GetComponent<Rigidbody>().mass = SpaceMath.Shape.SphereMass(Data.Radius.Value, Data.Density.Value) * SpaceMath.ToEngineMass;
     }
 }

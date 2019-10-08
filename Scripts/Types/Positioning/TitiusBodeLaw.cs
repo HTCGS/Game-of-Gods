@@ -20,7 +20,7 @@ namespace SpaceEngine
 
         public TitiusBodeLaw() { }
 
-        public TitiusBodeLaw(GameObject parent) :this()
+        public TitiusBodeLaw(GameObject parent) : this()
         {
             this.Parent = parent;
         }
@@ -93,7 +93,7 @@ namespace SpaceEngine
                 index++;
                 float orbitRadius = PositionAt(index);
                 orbitRadius *= SpaceMath.AU;
-                gravityForce = SpaceMath.GetGravityForce(parentMass, 1f, orbitRadius);
+                gravityForce = SpaceMath.Gravity.GetGravityForce(parentMass, 1f, orbitRadius);
             } while (gravityForce > lowGravity);
             return index;
         }

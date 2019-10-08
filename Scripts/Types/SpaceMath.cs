@@ -31,120 +31,120 @@ namespace SpaceEngine
         //public static float Unit = AU / 2;
         //public static float Unit = 1000f;
 
-        #region Gravity
-
-        public static void AddGravityForce(GameObject to, GameObject from)
+        public static class Gravity
         {
-            AddGravityForce(to, from, 1f);
+            public static void AddGravityForce(GameObject to, GameObject from)
+            {
+                AddGravityForce(to, from, 1f);
+            }
+
+            public static void AddGravityForce(Rigidbody to, Rigidbody from)
+            {
+                AddGravityForce(to, from, 1f);
+            }
+
+            public static void AddGravityForce(GameObject to, GameObject from, float mult)
+            {
+                Vector3 direction = from.transform.position - to.transform.position;
+                float force = GetGravityForce(to, from, direction);
+                to.GetComponent<Rigidbody>().AddForce(direction.normalized * force * mult);
+            }
+
+            public static void AddGravityForce(Rigidbody to, Rigidbody from, float mult)
+            {
+                Vector3 direction = from.position - to.position;
+                float force = GetGravityForce(to, from, direction);
+                to.AddForce(direction.normalized * force * mult);
+            }
+
+            public static float GetGravityForce(GameObject first, GameObject second)
+            {
+                Vector3 distance = second.transform.position - first.transform.position;
+                return GetGravityForce(first, second, distance);
+            }
+
+            public static float GetGravityForce(Rigidbody first, Rigidbody second)
+            {
+                Vector3 distance = second.position - first.position;
+                return GetGravityForce(first, second, distance);
+            }
+
+            public static float GetGravityForce(GameObject first, GameObject second, Vector3 distance)
+            {
+                return SpaceMath.G * ((first.GetComponent<Rigidbody>().mass * second.GetComponent<Rigidbody>().mass) /
+                    Mathf.Pow(distance.magnitude * SpaceMath.Unit, 2));
+            }
+
+            public static float GetGravityForce(Rigidbody first, Rigidbody second, Vector3 distance)
+            {
+                return SpaceMath.G * ((first.mass * second.mass) / Mathf.Pow(distance.magnitude * SpaceMath.Unit, 2));
+            }
+
+            public static float GetGravityForce(float first, float second, float distance)
+            {
+                return SpaceMath.G * ((first * second) / Mathf.Pow(distance, 2));
+            }
+
+            public static float GravitationalRadius(float mass)
+            {
+                return (2 * mass * SpaceMath.G) / (SpaceMath.LightSpeed * SpaceMath.LightSpeed);
+            }
         }
 
-        public static void AddGravityForce(Rigidbody to, Rigidbody from)
+        public static class CosmicVelocity
         {
-            AddGravityForce(to, from, 1f);
+
+            public static float FirstCosmicVelocity(GameObject cosmicObject, GameObject parent)
+            {
+                return FirstCosmicVelocity(cosmicObject, parent, 1f);
+            }
+
+            public static float FirstCosmicVelocity(Rigidbody cosmicObject, Rigidbody parent)
+            {
+                return FirstCosmicVelocity(cosmicObject, parent, 1f);
+            }
+
+            public static float FirstCosmicVelocity(GameObject cosmicObject, GameObject parent, float mult)
+            {
+                Vector3 toParentDistance = parent.transform.position - cosmicObject.transform.position;
+                return Mathf.Sqrt(SpaceMath.G * parent.GetComponent<Rigidbody>().mass / (toParentDistance.magnitude * SpaceMath.Unit)) * mult;
+            }
+
+            public static float FirstCosmicVelocity(Rigidbody cosmicObject, Rigidbody parent, float mult)
+            {
+                Vector3 toParentDistance = parent.position - cosmicObject.position;
+                return Mathf.Sqrt(SpaceMath.G * parent.mass / (toParentDistance.magnitude * SpaceMath.Unit)) * mult;
+            }
         }
 
-        public static void AddGravityForce(GameObject to, GameObject from, float mult)
+        public static class Shape
         {
-            Vector3 direction = from.transform.position - to.transform.position;
-            float force = GetGravityForce(to, from, direction);
-            to.GetComponent<Rigidbody>().AddForce(direction.normalized * force * mult);
+
+            public static float SphereRadius(GameObject body, float density)
+            {
+                return SphereRadius(body.GetComponent<Rigidbody>(), density);
+            }
+
+            public static float SphereRadius(Rigidbody body, float density)
+            {
+                return SphereRadius(body.mass, density);
+            }
+
+            public static float SphereRadius(float mass, float density)
+            {
+                return Mathf.Pow(mass / (1.333f * Mathf.PI * density), 1f / 3f);
+            }
+
+            public static float SphereMass(GameObject body, float density)
+            {
+                return SphereMass(body.transform.localScale.magnitude, density);
+            }
+
+            public static float SphereMass(float radius, float density)
+            {
+                return 1.333f * Mathf.PI * Mathf.Pow(radius, 3) * density;
+            }
         }
-
-        public static void AddGravityForce(Rigidbody to, Rigidbody from, float mult)
-        {
-            Vector3 direction = from.position - to.position;
-            float force = GetGravityForce(to, from, direction);
-            to.AddForce(direction.normalized * force * mult);
-        }
-
-        public static float GetGravityForce(GameObject first, GameObject second)
-        {
-            Vector3 distance = second.transform.position - first.transform.position;
-            return GetGravityForce(first, second, distance);
-        }
-
-        public static float GetGravityForce(Rigidbody first, Rigidbody second)
-        {
-            Vector3 distance = second.position - first.position;
-            return GetGravityForce(first, second, distance);
-        }
-
-        public static float GetGravityForce(GameObject first, GameObject second, Vector3 distance)
-        {
-            return SpaceMath.G * ((first.GetComponent<Rigidbody>().mass * second.GetComponent<Rigidbody>().mass) /
-                Mathf.Pow(distance.magnitude * SpaceMath.Unit, 2));
-        }
-
-        public static float GetGravityForce(Rigidbody first, Rigidbody second, Vector3 distance)
-        {
-            return SpaceMath.G * ((first.mass * second.mass) / Mathf.Pow(distance.magnitude * SpaceMath.Unit, 2));
-        }
-
-        public static float GetGravityForce(float first, float second, float distance)
-        {
-            return SpaceMath.G * ((first * second) / Mathf.Pow(distance, 2));
-        }
-
-        public static float GravitationalRadius(float mass)
-        {
-            return (2 * mass * SpaceMath.G) / (SpaceMath.LightSpeed * SpaceMath.LightSpeed);
-        }
-        #endregion
-
-        #region Cosmic velocities
-
-        public static float GetFirstCosmicVelocity(GameObject cosmicObject, GameObject parent)
-        {
-            return GetFirstCosmicVelocity(cosmicObject, parent, 1f);
-        }
-
-        public static float GetFirstCosmicVelocity(Rigidbody cosmicObject, Rigidbody parent)
-        {
-            return GetFirstCosmicVelocity(cosmicObject, parent, 1f);
-        }
-
-        public static float GetFirstCosmicVelocity(GameObject cosmicObject, GameObject parent, float mult)
-        {
-            Vector3 toParentDistance = parent.transform.position - cosmicObject.transform.position;
-            return Mathf.Sqrt(SpaceMath.G * parent.GetComponent<Rigidbody>().mass / (toParentDistance.magnitude * SpaceMath.Unit)) * mult;
-        }
-
-        public static float GetFirstCosmicVelocity(Rigidbody cosmicObject, Rigidbody parent, float mult)
-        {
-            Vector3 toParentDistance = parent.position - cosmicObject.position;
-            return Mathf.Sqrt(SpaceMath.G * parent.mass / (toParentDistance.magnitude * SpaceMath.Unit)) * mult;
-        }
-
-        #endregion
-
-        #region Shape
-
-        public static float GetSphereRadius(GameObject body, float density)
-        {
-            return GetSphereRadius(body.GetComponent<Rigidbody>(), density);
-        }
-
-        public static float GetSphereRadius(Rigidbody body, float density)
-        {
-            return GetSphereRadius(body.mass, density);
-        }
-
-        public static float GetSphereRadius(float mass, float density)
-        {
-            return Mathf.Pow(mass / (1.333f * Mathf.PI * density), 1f / 3f);
-        }
-
-        public static float GetSphereMass(GameObject body, float density)
-        {
-            return GetSphereMass(body.transform.localScale.magnitude, density);
-        }
-
-        public static float GetSphereMass(float radius, float density)
-        {
-            return 1.333f * Mathf.PI * Mathf.Pow(radius, 3) * density;
-        }
-
-        #endregion
 
         public static Vector3 GetTangentPoint(GameObject circle, GameObject point)
         {

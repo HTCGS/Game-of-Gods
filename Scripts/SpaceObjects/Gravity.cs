@@ -95,6 +95,6 @@ public class Gravity : MonoBehaviour
 
     public void AddGravityForce(Gravity other)
     {
-        SpaceMath.AddGravityForce(rb, other.rb, SpaceMath.Mult);
+        SpaceMath.Gravity.AddGravityForce(rb, other.rb, SpaceMath.Mult);
     }
 }

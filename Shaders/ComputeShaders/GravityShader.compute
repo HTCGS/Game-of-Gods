@@ -14,8 +14,9 @@ RWStructuredBuffer<float> Masses;
 
 RWStructuredBuffer<GravityData> Data;
 
-float Mult;
-float Unit;
+float Mult = 1;
+float Unit = 1;
+int ToInt = pow(10, 6);
 
 [numthreads(1,1,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
@@ -28,10 +29,9 @@ void CSMain (uint3 id : SV_DispatchThreadID)
         force *= Mult;
         distance =  normalize(distance) * force;
 
-        int toInt = pow(10, 6);
-        int x = distance.x * toInt;
-        int y = distance.y * toInt;
-        int z = distance.z * toInt;
+        int x = distance.x * ToInt;
+        int y = distance.y * ToInt;
+        int z = distance.z * ToInt;
 
         InterlockedAdd(Data[id.x].x, x);
         InterlockedAdd(Data[id.x].y, y);

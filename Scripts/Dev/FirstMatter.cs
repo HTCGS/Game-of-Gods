@@ -24,7 +24,6 @@ public class FirstMatter : MonoBehaviour
 
     void Start()
     {
-
         // string localPath = "Assets/" + "a.prefab";
         // localPath = AssetDatabase.GenerateUniqueAssetPath(localPath);
 
@@ -47,8 +46,8 @@ public class FirstMatter : MonoBehaviour
         sourcePositions[0] = this.transform.position;
         for (int i = 1; i < Sources; i++)
         {
-            // Vector3 dir = Random.insideUnitSphere * Random.Range(0, 2 * Radius);
-            Vector3 dir = Random.insideUnitSphere * Radius;
+            Vector3 dir = Random.insideUnitSphere * Random.Range(0, 2 * Radius);
+            // Vector3 dir = Random.insideUnitSphere * Radius;
             //Vector2 shift = Random.insideUnitCircle * Random.Range(0, 2 * Radius);
             //Vector3 dir = new Vector3(shift.x, 0, shift.y);
             int from = Random.Range(0, i);
@@ -104,6 +103,19 @@ public class FirstMatter : MonoBehaviour
                 //         //Objects[j].transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
             }
         }
+
+        // for (int i = 0; i < Sources; i++)
+        // {
+        //     int sourcesObjectsNum = Random.Range(0, ObjectNum);
+        //     for (int j = 0; j < sourcesObjectsNum; j++)
+        //     {
+        //         GameObject obj = Instantiate(Prefab, sourcePositions[i], Quaternion.identity);
+        //         obj.transform.position += Random.insideUnitSphere * Radius;
+        //         obj.transform.SetParent(this.transform);
+        //         float mass = Random.Range(1, 100);
+        //         obj.GetComponent<Rigidbody>().mass = mass;
+        //     }
+        // }
 
         // for (int i = 0; i < ObjectNum; i++)
         // {

@@ -22,7 +22,7 @@ public class Orbit : MonoBehaviour
     {
         if (gameObject.transform.parent == null) return;
         if (Parent == null) Parent = gameObject.transform.parent.gameObject;
-        orbitVelocity = SpaceMath.GetFirstCosmicVelocity(gameObject, Parent, SpaceMath.Mult);
+        orbitVelocity = SpaceMath.CosmicVelocity.FirstCosmicVelocity(gameObject, Parent, SpaceMath.Mult);
 
         float SecondVelocity = Mathf.Sqrt(2) * orbitVelocity;
         float deltaForce = (SecondVelocity - orbitVelocity);
@@ -90,7 +90,7 @@ public class Orbit : MonoBehaviour
                 this.Parent = parent;
                 break;
             }
-            parent = parent.transform.parent.gameObject;
+            parent = parent.transform.With(t => t.parent).Return(p => p.gameObject);
         }
     }
 

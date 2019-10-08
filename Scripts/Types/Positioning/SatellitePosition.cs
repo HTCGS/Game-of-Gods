@@ -8,9 +8,7 @@ namespace SpaceEngine
     {
         public GameObject Star;
 
-        public SatellitePosition()
-        {
-        }
+        public SatellitePosition() { }
 
         public SatellitePosition(GameObject parent) : base(parent)
         {
@@ -51,8 +49,8 @@ namespace SpaceEngine
                 float toStar = (Star.transform.position - Parent.transform.position).magnitude;
                 toStar += orbitRadius;
                 toStar *= SpaceMath.Unit;
-                starGravity = SpaceMath.GetGravityForce(starMass, 1f, toStar);
-                planetGravity = SpaceMath.GetGravityForce(planetMass, 1f, orbitRadius);
+                starGravity = SpaceMath.Gravity.GetGravityForce(starMass, 1f, toStar);
+                planetGravity = SpaceMath.Gravity.GetGravityForce(planetMass, 1f, orbitRadius);
             } while (planetGravity / starGravity >= 1.5f);
             return index;
         }

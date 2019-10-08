@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using SpaceEngine;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class MultyOrbit : MonoBehaviour
@@ -14,8 +14,6 @@ public class MultyOrbit : MonoBehaviour
     public GameObject Sat;
 
     public GameObject Earth;
-
-
 
     void Start()
     {
@@ -58,7 +56,6 @@ public class MultyOrbit : MonoBehaviour
 
         //Debug.Log(Mathf.Pow((0.075f * SpaceMath.SolMass) / (4.18f * 1700f), 1f / 3f));
 
-
         //Debug.Log(64400000f / SpaceMath.SolRadius);
 
         //Debug.Log(0.01f * SpaceMath.SolRadius);
@@ -69,9 +66,8 @@ public class MultyOrbit : MonoBehaviour
 
         //Debug.Log((0.079f * SpaceMath.SolMass) / (4.18f * Mathf.Pow(0.099f * SpaceMath.SolRadius, 3)));
 
-
-        SolForce = SpaceMath.GetGravityForce(gameObject, Sat);
-        EarthForce = SpaceMath.GetGravityForce(Earth, Sat);
+        SolForce = SpaceMath.Gravity.GetGravityForce(gameObject, Sat);
+        EarthForce = SpaceMath.Gravity.GetGravityForce(Earth, Sat);
 
         //Debug.Log(this.GetComponent<Rigidbody>().mass / Mathf.Pow( (Sat.transform.position - this.transform.position).magnitude, 2));
 
@@ -112,8 +108,8 @@ public class MultyOrbit : MonoBehaviour
     {
         //Force = SpaceMath.GetGravityForce(gameObject, Sat);
 
-        SolForce = SpaceMath.GetGravityForce(gameObject, Sat);
-        EarthForce = SpaceMath.GetGravityForce(Earth, Sat);
+        SolForce = SpaceMath.Gravity.GetGravityForce(gameObject, Sat);
+        EarthForce = SpaceMath.Gravity.GetGravityForce(Earth, Sat);
 
         Distanse = (Sat.transform.position - Earth.transform.position).magnitude;
     }

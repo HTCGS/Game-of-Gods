@@ -6377,10 +6377,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1fc2ffa6e2ded64d9435158fb9673b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 1702985537545000, guid: 8c80c1490c4989b40bdf7a430395fcf1, type: 3}
+  Prefab: {fileID: 1204034329950256, guid: 9d4767d15ef6c7240ad1e4951f7be6d6, type: 3}
   Radius: 20
   Sources: 1
-  ObjectNum: 1000
+  ObjectNum: 10
   IsRegularShape: 0
   start: 0
 --- !u!4 &878595070

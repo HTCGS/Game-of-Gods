@@ -38,20 +38,9 @@ public class GravityManager : MonoBehaviour
         {
             Shader.SetFloat("Mult", SpaceMath.Mult);
             Shader.SetFloat("Unit", SpaceMath.Unit);
+            Shader.SetInt("ToInt", (int) fromInt);
             kernel = Shader.FindKernel("CSMain");
-
-            this.chunkNum = (int) System.Math.Ceiling((double) GravityManager.Objects.Count / (double) сhunkSize);
-
-            if (this.chunkNum > 1) this.size = this.сhunkSize;
-            else this.size = GravityManager.Objects.Count;
-
-            positionBuffer = new ComputeBuffer(size, 12);
-            massBuffer = new ComputeBuffer(size, 4);
-            dataBuffer = new ComputeBuffer((int) size, 12);
-
-            positions = new Vector3[size];
-            masses = new float[size];
-            data = new GravityData[(int) size];
+            GPUSettingsInitialization();
         }
     }
 
@@ -69,12 +58,28 @@ public class GravityManager : MonoBehaviour
             for (int j = i + 1; j < GravityManager.Objects.Count; j++)
             {
                 Vector3 direction = GravityManager.Objects[j].position - GravityManager.Objects[i].position;
-                float force = SpaceMath.GetGravityForce(GravityManager.Objects[i], GravityManager.Objects[j], direction) * SpaceMath.Mult;
+                float force = SpaceMath.Gravity.GetGravityForce(GravityManager.Objects[i], GravityManager.Objects[j], direction) * SpaceMath.Mult;
                 direction = direction.normalized * force;
                 GravityManager.Objects[i].AddForce(direction);
                 GravityManager.Objects[j].AddForce(-direction);
             }
         }
+    }
+
+    public void GPUSettingsInitialization()
+    {
+        this.chunkNum = (int) System.Math.Ceiling((double) GravityManager.Objects.Count / (double) сhunkSize);
+
+        if (this.chunkNum > 1) this.size = this.сhunkSize;
+        else this.size = GravityManager.Objects.Count;
+
+        positionBuffer = new ComputeBuffer(size, 12);
+        massBuffer = new ComputeBuffer(size, 4);
+        dataBuffer = new ComputeBuffer((int) size, 12);
+
+        positions = new Vector3[size];
+        masses = new float[size];
+        data = new GravityData[(int) size];
     }
 
     private void GPUGravityCalculations()

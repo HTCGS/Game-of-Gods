@@ -94,9 +94,9 @@ namespace SpaceEngine
                     }
                 }
             }
-            else if (Star.EvolutionState == StarEvolutionState.Giant
-                || Star.EvolutionState == StarEvolutionState.SuperGiant
-                || Star.EvolutionState == StarEvolutionState.HyperGiant)
+            else if (Star.EvolutionState == StarEvolutionState.Giant ||
+                Star.EvolutionState == StarEvolutionState.SuperGiant ||
+                Star.EvolutionState == StarEvolutionState.HyperGiant)
             {
                 evolvedStar.Mass.Value *= Random.Range(0.5f, 0.8f);
 
@@ -114,7 +114,7 @@ namespace SpaceEngine
                 }
                 else
                 {
-                    evolvedStar.Radius.Value = SpaceMath.GravitationalRadius(evolvedStar.Mass.Value * SpaceMath.SolMass) / SpaceMath.SolRadius;
+                    evolvedStar.Radius.Value = SpaceMath.Gravity.GravitationalRadius(evolvedStar.Mass.Value * SpaceMath.SolMass) / SpaceMath.SolRadius;
                     evolvedStar.Color.Value = new Color32(0, 0, 0, 1);
                     evolvedStar.EvolutionState = StarEvolutionState.BlackHole;
                 }

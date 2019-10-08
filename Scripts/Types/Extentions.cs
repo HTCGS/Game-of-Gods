@@ -23,7 +23,7 @@ namespace SpaceEngine
         where TInput : class
         where TResult : class
         {
-            if (obj == null) return null;
+            if (obj.Equals(null)) return null;
             return selector(obj);
         }
 
