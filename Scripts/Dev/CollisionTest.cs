@@ -53,6 +53,31 @@ public class CollisionTest : MonoBehaviour
 
         pos = this.transform.position;
 
+        Rigidbody parent = gameObject.transform.parent.GetComponent<Rigidbody>();
+
+        Vector3 L1 = SpaceMath.Orbit.L1Point(parent, rb);
+        Vector3 L2 = SpaceMath.Orbit.L2Point(parent, rb);
+        Vector3 L3 = SpaceMath.Orbit.L3Point(parent, rb);
+
+        float distance = SpaceMath.Orbit.L1L2Distance(parent, rb);
+
+        GameObject obj1 = Instantiate(Planet, L1, Quaternion.identity);
+        GameObject obj2 = Instantiate(Planet, L2, Quaternion.identity);
+        GameObject obj3 = Instantiate(Planet, L3, Quaternion.identity);
+
+        obj1.transform.SetParent(gameObject.transform);
+        obj2.transform.SetParent(gameObject.transform);
+        obj3.transform.SetParent(gameObject.transform.parent.transform);
+
+        // GetComponent<Orbit>().enabled = true;
+        // GetComponent<MassiveObject>().enabled = true;
+        // obj1.GetComponent<Orbit>().enabled = true;
+        // obj2.GetComponent<Orbit>().enabled = true;
+
+        print(L1);
+        print(L2);
+        print(L3);
+
     }
 
     private void FixedUpdate()
@@ -63,8 +88,6 @@ public class CollisionTest : MonoBehaviour
         //     pos = this.transform.position;
         // }
         // time++;
-
-        int[] a = new int[30000];
 
     }
 }

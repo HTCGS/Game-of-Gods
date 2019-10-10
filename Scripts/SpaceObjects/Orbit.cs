@@ -22,6 +22,7 @@ public class Orbit : MonoBehaviour
     {
         if (gameObject.transform.parent == null) return;
         if (Parent == null) Parent = gameObject.transform.parent.gameObject;
+        // if (Parent == null) this.Parent = gameObject.transform.parent.gameObject.transform.parent.gameObject;
         orbitVelocity = SpaceMath.CosmicVelocity.FirstCosmicVelocity(gameObject, Parent, SpaceMath.Mult);
 
         float SecondVelocity = Mathf.Sqrt(2) * orbitVelocity;

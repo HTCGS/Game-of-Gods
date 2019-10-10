@@ -117,6 +117,61 @@ namespace SpaceEngine
             }
         }
 
+        public static class Orbit
+        {
+            public static float L1L2Distance(float mass1, float mass2, float distance)
+            {
+                return distance * Mathf.Pow(mass2 / (3 * mass1), 1f / 3f);
+            }
+
+            public static float L1L2Distance(Rigidbody body1, Rigidbody body2)
+            {
+                float distance = (body1.position - body2.position).magnitude;
+                return L1L2Distance(body1.mass, body2.mass, distance);
+            }
+
+            public static Vector3 L1Point(Rigidbody body1, Rigidbody body2)
+            {
+                Vector3 distance = body2.position - body1.position;
+                // float a = body2.mass / (body1.mass + body2.mass);
+                // float r = (distance.magnitude * SpaceMath.Unit) * (1f - Mathf.Pow(a / 3, 1f / 3f));
+                // return body1.position + (distance.normalized * r);
+                // Vector3 distance = body1.position - body2.position;
+                return body2.position + (distance.normalized * L1L2Distance(body1.mass, body2.mass, distance.magnitude));
+            }
+
+            public static Vector3 L2Point(Rigidbody body1, Rigidbody body2)
+            {
+                Vector3 distance = body2.position - body1.position;
+                // float a = body2.mass / (body1.mass + body2.mass);
+                // float r = (distance.magnitude * SpaceMath.Unit) * (1f + Mathf.Pow(a / 3, 1f / 3f));
+                // return body1.position + (distance.normalized * r);
+                // Vector3 distance = body1.position - body2.position;
+                return body2.position + (-distance.normalized * L1L2Distance(body1.mass, body2.mass, distance.magnitude));
+            }
+
+            public static Vector3 L3Point(Rigidbody body1, Rigidbody body2)
+            {
+                // Vector3 distance = body2.position - body1.position;
+                // float a = body2.mass / (body1.mass + body2.mass);
+                // float r = distance.magnitude * (1f + ((5f / 12f) * a));
+                // return body1.position + (-distance.normalized * r);
+                Vector3 distance = body2.position - body1.position;
+                float r = distance.magnitude + (distance.magnitude * ((5 * body2.mass) / (12 * body1.mass)));
+                return body1.position + (-distance.normalized * r);
+            }
+
+            public static Vector3 L4Point(Rigidbody body1, Rigidbody body2)
+            {
+                return Vector3.zero;
+            }
+
+            public static Vector3 L5Point(Rigidbody body1, Rigidbody body2)
+            {
+                return Vector3.zero;
+            }
+        }
+
         public static class Shape
         {
 
