@@ -19,8 +19,8 @@ namespace SpaceEngine
 
         public static readonly float ToEngineMass = Mathf.Pow(10, 9) / (250 * SpaceMath.SolMass);
 
-        public static float Mult = 1000000000f;
-        // public static float Mult = 100000f;
+        // public static float Mult = 1000000000f;
+        public static float Mult = 100000000f;
         // public static float Mult = 1000000f;
         // public static float Mult = 1f;
 
@@ -124,51 +124,68 @@ namespace SpaceEngine
                 return distance * Mathf.Pow(mass2 / (3 * mass1), 1f / 3f);
             }
 
-            public static float L1L2Distance(Rigidbody body1, Rigidbody body2)
+            public static float L1L2Distance(Rigidbody biggest, Rigidbody smallest)
             {
-                float distance = (body1.position - body2.position).magnitude;
-                return L1L2Distance(body1.mass, body2.mass, distance);
+                float distance = (biggest.position - smallest.position).magnitude;
+                return L1L2Distance(biggest.mass, smallest.mass, distance);
             }
 
-            public static Vector3 L1Point(Rigidbody body1, Rigidbody body2)
+            public static Vector3 L1Point(Rigidbody biggest, Rigidbody smallest)
             {
-                Vector3 distance = body2.position - body1.position;
-                // float a = body2.mass / (body1.mass + body2.mass);
-                // float r = (distance.magnitude * SpaceMath.Unit) * (1f - Mathf.Pow(a / 3, 1f / 3f));
-                // return body1.position + (distance.normalized * r);
-                // Vector3 distance = body1.position - body2.position;
-                return body2.position + (distance.normalized * L1L2Distance(body1.mass, body2.mass, distance.magnitude));
+                Vector3 distance = smallest.position - biggest.position;
+                return smallest.position + (distance.normalized * L1L2Distance(biggest.mass, smallest.mass, distance.magnitude));
             }
 
-            public static Vector3 L2Point(Rigidbody body1, Rigidbody body2)
+            public static Vector3 L2Point(Rigidbody biggest, Rigidbody smallest)
             {
-                Vector3 distance = body2.position - body1.position;
-                // float a = body2.mass / (body1.mass + body2.mass);
-                // float r = (distance.magnitude * SpaceMath.Unit) * (1f + Mathf.Pow(a / 3, 1f / 3f));
-                // return body1.position + (distance.normalized * r);
-                // Vector3 distance = body1.position - body2.position;
-                return body2.position + (-distance.normalized * L1L2Distance(body1.mass, body2.mass, distance.magnitude));
+                Vector3 distance = smallest.position - biggest.position;
+                return smallest.position + (-distance.normalized * L1L2Distance(biggest.mass, smallest.mass, distance.magnitude));
             }
 
-            public static Vector3 L3Point(Rigidbody body1, Rigidbody body2)
+            public static Vector3 L3Point(Rigidbody biggest, Rigidbody smallest)
             {
-                // Vector3 distance = body2.position - body1.position;
-                // float a = body2.mass / (body1.mass + body2.mass);
-                // float r = distance.magnitude * (1f + ((5f / 12f) * a));
-                // return body1.position + (-distance.normalized * r);
-                Vector3 distance = body2.position - body1.position;
-                float r = distance.magnitude + (distance.magnitude * ((5 * body2.mass) / (12 * body1.mass)));
-                return body1.position + (-distance.normalized * r);
+                Vector3 distance = smallest.position - biggest.position;
+                float r = distance.magnitude + (distance.magnitude * ((5 * smallest.mass) / (12 * biggest.mass)));
+                return biggest.position + (-distance.normalized * r);
             }
 
-            public static Vector3 L4Point(Rigidbody body1, Rigidbody body2)
+            public static Vector3 L4Point(Rigidbody biggest, Rigidbody smallest)
             {
+                SpaceEngine.Orbit satOrbit = smallest.gameObject.With(g => g.GetComponent<SpaceEngine.Orbit>());
+                if (satOrbit)
+                {
+                    Vector3 toParent = smallest.position - biggest.position;
+                    Vector3 orbitDirection = satOrbit.GetOrbitalRotationVector(toParent, satOrbit.OrbitDirection);
+                    Vector3 norm = Vector3.Cross(toParent, orbitDirection);
+                    Vector3 rotatedVec = Quaternion.AngleAxis(-60f, norm) * toParent;
+                    return rotatedVec + biggest.position;
+                }
                 return Vector3.zero;
             }
 
-            public static Vector3 L5Point(Rigidbody body1, Rigidbody body2)
+            public static Vector3 L5Point(Rigidbody biggest, Rigidbody smallest)
             {
+                SpaceEngine.Orbit satOrbit = smallest.gameObject.With(g => g.GetComponent<SpaceEngine.Orbit>());
+                if (satOrbit)
+                {
+                    Vector3 toParent = smallest.position - biggest.position;
+                    Vector3 orbitDirection = satOrbit.GetOrbitalRotationVector(toParent, satOrbit.OrbitDirection);
+                    Vector3 norm = Vector3.Cross(toParent, orbitDirection);
+                    Vector3 rotatedVec = Quaternion.AngleAxis(60f, norm) * toParent;
+                    return rotatedVec + biggest.position;
+                }
                 return Vector3.zero;
+            }
+
+            public static float SphereOfInfluence(float biggest, float smallest, float distance)
+            {
+                return distance * (Mathf.Pow(smallest / biggest, 0.4f));
+            }
+
+            public static float SphereOfInfluence(Rigidbody biggest, Rigidbody smallest)
+            {
+                float distance = (biggest.position - smallest.position).magnitude * SpaceMath.Unit;
+                return distance * (Mathf.Pow(smallest.mass / biggest.mass, 0.4f));
             }
         }
 
