@@ -23,11 +23,6 @@ public class MassiveObject : MonoBehaviour
             if (sat != null)
             {
                 SpaceMath.Gravity.AddGravityForce(sat, rb, SpaceMath.Mult);
-                // float gravity = SpaceMath.GetGravityForce(sat, rb) * SpaceMath.Mult * Time.fixedDeltaTime;
-                // Vector3 gravityVector = this.transform.position - sat.position;
-                // gravityVector *= gravity;
-                // sat.velocity += gravityVector;
-
             }
         }
     }
