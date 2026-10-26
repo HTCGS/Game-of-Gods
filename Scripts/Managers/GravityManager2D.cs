@@ -6,9 +6,9 @@ using System.Linq;
 using SpaceEngine;
 using UnityEngine;
 
-public class GravityManager : MonoBehaviour
+public class GravityManager2D : MonoBehaviour
 {
-    public static List<Rigidbody> Objects = new List<Rigidbody>();
+    public static List<Rigidbody2D> Objects = new List<Rigidbody2D>();
 
     public CalculationDevice Device;
 
@@ -31,6 +31,8 @@ public class GravityManager : MonoBehaviour
     private int chunkNum;
     private int size;
 
+    private BarnesHutTree BHTree;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +43,13 @@ public class GravityManager : MonoBehaviour
             Shader.SetInt("ToInt", (int)fromInt);
             kernel = Shader.FindKernel("CSMain");
             GPUSettingsInitialization();
+        }
+
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            var child = this.transform.GetChild(i);
+            var rb = child.GetComponent<Rigidbody2D>();
+            GravityManager2D.Objects.Add(rb);
         }
     }
 
@@ -53,34 +62,85 @@ public class GravityManager : MonoBehaviour
 
     private void CPUGravityCalculations()
     {
-        var BHTree = BarnesHutTree.CreateTree(Objects, this.transform.position, 200);
+        // var stopWatch = new Stopwatch();
+        // stopWatch.Start();
+        this.BHTree = BarnesHutTree.CreateTree(Objects, this.transform.position, 400);
+        // print(BHTree.NumberOfBodies);
+        // print(GravityManager.Objects.Count);
         foreach (var body in Objects)
         {
-            BHTree.CalculateForces(body, 1f);
+            // if (body.name == "Crcle-319")
+            // {
+            //     print(body.name);
+            // }
+            BHTree.CalculateForces(body, 0.5f);
+            // if (body.totalForce.magnitude < 1.0f)
+            // {
+            //     print(body.transform.name);
+            // }
+            // if (body.linearVelocity.magnitude == 0f)
+            // {
+            //     print(body.transform.name);
+            //     print(body.totalForce);
+            // }
+            // print(body.linearVelocity.magnitude);
+            // print(body.totalForce.magnitude);
         }
+        // stopWatch.Stop();
+        // print(stopWatch.ElapsedMilliseconds);
     }
 
     // private void CPUGravityCalculations()
     // {
-    //     for (int i = 0; i < GravityManager.Objects.Count - 1; i++)
+    //     for (int i = 0; i < GravityManager2D.Objects.Count - 1; i++)
     //     {
-    //         for (int j = i + 1; j < GravityManager.Objects.Count; j++)
+    //         for (int j = i + 1; j < GravityManager2D.Objects.Count; j++)
     //         {
-    //             Vector3 direction = GravityManager.Objects[j].position - GravityManager.Objects[i].position;
-    //             float force = SpaceMath.Gravity.GetGravityForce(GravityManager.Objects[i], GravityManager.Objects[j], direction) * SpaceMath.Mult;
+    //             Vector2 direction = GravityManager2D.Objects[j].position - GravityManager2D.Objects[i].position;
+    //             float force = SpaceMath.Gravity.GetGravityForce(GravityManager2D.Objects[i], GravityManager2D.Objects[j], direction) * SpaceMath.Mult;
     //             direction = direction.normalized * force;
-    //             GravityManager.Objects[i].AddForce(direction);
-    //             GravityManager.Objects[j].AddForce(-direction);
+    //             // GravityManager.Objects[i].totalForce += direction;
+    //             // GravityManager.Objects[j].totalForce -= direction;
+    //             GravityManager2D.Objects[i].AddForce(direction);
+    //             GravityManager2D.Objects[j].AddForce(-direction);
     //         }
     //     }
     // }
 
+    void OnDrawGizmosSelected()
+    {
+        if (this.BHTree != null)
+        {
+            DrawBHTreeGizmos(BHTree);
+        }
+    }
+
+    private void DrawBHTreeGizmos(BarnesHutTree tree)
+    {
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireCube(tree.Position, new Vector2(tree.RegionSize, tree.RegionSize));
+        if (tree.NumberOfBodies > 1)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(tree.CenterOfMass, 1f);
+        }
+        if (tree.NE != null) DrawBHTreeGizmos(tree.NE);
+        if (tree.NW != null) DrawBHTreeGizmos(tree.NW);
+        if (tree.SW != null) DrawBHTreeGizmos(tree.SW);
+        if (tree.SE != null) DrawBHTreeGizmos(tree.SE);
+    }
+
+    // void OnDrawGizmos()
+    // {
+    //     Gizmos.DrawCube(Vector2.zero, Vector2.one);
+    // }
+
     public void GPUSettingsInitialization()
     {
-        this.chunkNum = (int)System.Math.Ceiling((double)GravityManager.Objects.Count / (double)сhunkSize);
+        this.chunkNum = (int)System.Math.Ceiling((double)GravityManager2D.Objects.Count / (double)сhunkSize);
 
         if (this.chunkNum > 1) this.size = this.сhunkSize;
-        else this.size = GravityManager.Objects.Count;
+        else this.size = GravityManager2D.Objects.Count;
 
         positionBuffer = new ComputeBuffer(size, 12);
         massBuffer = new ComputeBuffer(size, 4);
@@ -93,12 +153,12 @@ public class GravityManager : MonoBehaviour
 
     private void GPUGravityCalculations()
     {
-        if (chunkNum == 1) GPUCalculation(GravityManager.Objects);
+        if (chunkNum == 1) GPUCalculation(GravityManager2D.Objects);
         else
         {
             List<Rigidbody> chunk = new List<Rigidbody>();
             int step = size / 2;
-            int lastChunkObjects = GravityManager.Objects.Count - ((chunkNum - 1) * size);
+            int lastChunkObjects = GravityManager2D.Objects.Count - ((chunkNum - 1) * size);
             int emptyChunks = (float)lastChunkObjects / (float)step <= 1 ? 1 : 0;
             int chunks = ((chunkNum * 2) - 1) - emptyChunks;
 
@@ -116,24 +176,24 @@ public class GravityManager : MonoBehaviour
                         }
                     }
 
-                    for (int k = 0; k < step; k++)
-                    {
-                        chunk.Add(GravityManager.Objects[(i * step) + k]);
-                    }
+                    // for (int k = 0; k < step; k++)
+                    // {
+                    //     chunk.Add(GravityManager.Objects[(i * step) + k]);
+                    // }
 
-                    for (int k = 0; k < step - lastObjects; k++)
-                    {
-                        chunk.Add(GravityManager.Objects[((j + 1) * step) + k]);
-                    }
+                    // for (int k = 0; k < step - lastObjects; k++)
+                    // {
+                    //     chunk.Add(GravityManager.Objects[((j + 1) * step) + k]);
+                    // }
 
-                    GPUCalculation(chunk);
+                    // GPUCalculation(chunk);
                     chunk.Clear();
                 }
             }
         }
     }
 
-    private void GPUCalculation(List<Rigidbody> chunk)
+    private void GPUCalculation(List<Rigidbody2D> chunk)
     {
         for (int i = 0; i < chunk.Count; i++)
         {

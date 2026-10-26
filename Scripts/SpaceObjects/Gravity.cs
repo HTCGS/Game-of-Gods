@@ -4,19 +4,20 @@ using System.Linq;
 using SpaceEngine;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
+// [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class Gravity : MonoBehaviour
 {
     public static bool Taken = false;
 
     [HideInInspector]
-    public Rigidbody rb;
+    public Rigidbody2D rb;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        GravityManager.Objects.Add(rb);
-        Destroy(this);
+        // rb = GetComponent<Rigidbody2D>();
+        // GravityManager.Objects.Add(rb);
+        // Destroy(this);
     }
 
     // void FixedUpdate()

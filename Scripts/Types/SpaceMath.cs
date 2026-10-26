@@ -38,6 +38,11 @@ namespace SpaceEngine
                 AddGravityForce(to, from, 1f);
             }
 
+            public static void AddGravityForce(Rigidbody2D to, Rigidbody2D from)
+            {
+                AddGravityForce(to, from, 1f);
+            }
+
             public static void AddGravityForce(Rigidbody to, Rigidbody from)
             {
                 AddGravityForce(to, from, 1f);
@@ -48,6 +53,13 @@ namespace SpaceEngine
                 Vector3 direction = from.transform.position - to.transform.position;
                 float force = GetGravityForce(to, from, direction);
                 to.GetComponent<Rigidbody>().AddForce(direction.normalized * force * mult);
+            }
+
+            public static void AddGravityForce(Rigidbody2D to, Rigidbody2D from, float mult)
+            {
+                Vector2 direction = from.position - to.position;
+                float force = GetGravityForce(to, from, direction);
+                to.AddForce(direction.normalized * force * mult);
             }
 
             public static void AddGravityForce(Rigidbody to, Rigidbody from, float mult)
@@ -69,10 +81,21 @@ namespace SpaceEngine
                 return GetGravityForce(first, second, distance);
             }
 
+            public static float GetGravityForce(Rigidbody2D first, Rigidbody2D second)
+            {
+                Vector2 distance = second.position - first.position;
+                return GetGravityForce(first, second, distance);
+            }
+
             public static float GetGravityForce(GameObject first, GameObject second, Vector3 distance)
             {
                 return SpaceMath.G * ((first.GetComponent<Rigidbody>().mass * second.GetComponent<Rigidbody>().mass) /
                     Mathf.Pow(distance.magnitude * SpaceMath.Unit, 2));
+            }
+
+            public static float GetGravityForce(Rigidbody2D first, Rigidbody2D second, Vector2 distance)
+            {
+                return SpaceMath.G * ((first.mass * second.mass) / Mathf.Pow(distance.magnitude * SpaceMath.Unit, 2));
             }
 
             public static float GetGravityForce(Rigidbody first, Rigidbody second, Vector3 distance)

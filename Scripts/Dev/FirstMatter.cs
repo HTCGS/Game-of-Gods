@@ -26,6 +26,9 @@ public class FirstMatter : MonoBehaviour
 
     void Start()
     {
+        SquarePatternPositionGenerator();
+        Destroy(this);
+
         // string localPath = "Assets/" + "a.prefab";
         // localPath = AssetDatabase.GenerateUniqueAssetPath(localPath);
 
@@ -42,21 +45,21 @@ public class FirstMatter : MonoBehaviour
 
         // Destroy(this);
 
-        sourcePositions = new Vector3[Sources];
+        // sourcePositions = new Vector3[Sources];
         // Objects = new GameObject[ObjectNum * Sources];
-        Objects = new List<GameObject>();
+        // Objects = new List<GameObject>();
 
-        sourcePositions[0] = this.transform.position;
-        for (int i = 1; i < Sources; i++)
-        {
-            // Vector3 dir = Random.insideUnitSphere * Random.Range(0, 2 * Radius);
-            // Vector3 dir = Random.insideUnitSphere * Radius;
-            Vector2 shift = Random.insideUnitCircle * Random.Range(0, 2 * Radius);
-            Vector3 dir = new Vector3(shift.x, 0, shift.y);
-            // int from = Random.Range(0, i);
-            // sourcePositions[i] = sourcePositions[from] + dir;
-            // sourcePositions[i] = sourcePositions[i - 1] + dir;
-        }
+        // sourcePositions[0] = this.transform.position;
+        // for (int i = 1; i < Sources; i++)
+        // {
+        // Vector3 dir = Random.insideUnitSphere * Random.Range(0, 2 * Radius);
+        // Vector3 dir = Random.insideUnitSphere * Radius;
+        // Vector2 shift = Random.insideUnitCircle * Random.Range(0, 2 * Radius);
+        // Vector3 dir = new Vector3(shift.x, 0, shift.y);
+        // int from = Random.Range(0, i);
+        // sourcePositions[i] = sourcePositions[from] + dir;
+        // sourcePositions[i] = sourcePositions[i - 1] + dir;
+        // }
 
         // Objects[0] = Instantiate(Prefab, sourcePositions[0], Quaternion.identity);
         // Objects[0].transform.position += Vector3.forward * Radius;
@@ -73,105 +76,125 @@ public class FirstMatter : MonoBehaviour
         // for (int i = 0; i < Sources; i++)
         // {
         // for (int j = ObjectNum * i; j < ObjectNum * (i + 1); j++)
-        for (int j = 0; j < ObjectNum; j++)
-        {
-            var obj = Instantiate(Prefab, this.transform.position, Quaternion.identity);
-            // Objects[j] = Instantiate(Prefab, this.transform.position, Quaternion.identity);
-            // Objects[j].transform.position += Random.insideUnitSphere * Radius;
-
-            bool isUnique;
-            Vector3 position;
-            do
-            {
-                isUnique = true;
-                var randomPosition2D = Random.insideUnitCircle * Radius;
-                position = new Vector3(randomPosition2D.x, randomPosition2D.y, 0);
-                foreach (var item in Objects)
-                {
-                    var distance = (item.transform.position - position).magnitude;
-                    if (distance < 1) isUnique = false;
-                }
-            } while (!isUnique);
-
-
-
-            // Objects[j].transform.position = new Vector3(randomPosition2D.x, 0, randomPosition2D.y);
-            // Objects[j].transform.position = new Vector3(randomPosition2D.x, randomPosition2D.y, 0);
-            // obj.transform.position = new Vector3(randomPosition2D.x, randomPosition2D.y, 0);
-            obj.transform.position = position;
-
-            // Vector2 rand = Random.insideUnitCircle;
-            // Vector2 circlePoints = (rand * Radius) + (rand * 5);
-            // Objects[j].transform.position += new Vector3(circlePoints.x, 0, circlePoints.y);
-
-            //         Vector3 pos = Random.insideUnitSphere * Radius;
-            //         if (!IsRegularShape) pos += Random.insideUnitSphere * Random.Range(0, Radius);
-            //         Objects[j].transform.position += pos;
-
-            //         //Vector2 circlePoints = Random.insideUnitCircle;
-            //         //circlePoints += circlePoints.normalized;
-            //         //if (!IsRegularShape) circlePoints += Random.insideUnitCircle * Random.Range(0, 0.4f * Radius);
-            //         //Objects[j].transform.position += new Vector3(circlePoints.x, 0, circlePoints.y) * Radius;
-
-            //         //Objects[j].transform.position += new Vector3(circlePoints.x, (0.01f * Random.Range(-1, 1)), circlePoints.y) * Radius;
-            //         //Objects[j].transform.position += new Vector3(circlePoints.x, (0.01f * j), circlePoints.y) * Radius;
-
-            obj.transform.SetParent(this.transform);
-            // float mass = Random.Range(1, 100);
-            //         //float mass = Random.Range(1, 10);
-            float mass = 1;
-            obj.GetComponent<Rigidbody>().mass = mass;
-            Objects.Add(obj);
-            //         //Objects[j].transform.localScale = Vector3.Lerp(new Vector3(0.01f, 0.01f, 0.01f), new Vector3(0.1f, 0.1f, 0.1f), ((mass - 10) / 290));
-            //         //Objects[j].transform.localScale = Vector3.Lerp(new Vector3(0.01f, 0.01f, 0.01f), new Vector3(0.1f, 0.1f, 0.1f), ((mass - 1) / 10));
-
-            //         float r = Mathf.Pow(mass / (4.18f * 2333), 1f / 3f) * 2;
-            //         Objects[j].transform.localScale = new Vector3(r, r, r);
-            //         //Objects[j].transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-        }
-        // }
-
-        // Objects[0] = Instantiate(Prefab, this.transform.position, Quaternion.identity);
-        // Objects[0].transform.position = new Vector3(1, 1, 0);
-        // Objects[0].transform.SetParent(this.transform);
-        // Objects[0].GetComponent<Rigidbody>().mass = 1;
-
-        // Objects[1] = Instantiate(Prefab, this.transform.position, Quaternion.identity);
-        // Objects[1].transform.position = new Vector3(1, 3, 0);
-        // Objects[1].transform.SetParent(this.transform);
-        // Objects[1].GetComponent<Rigidbody>().mass = 1;
-
-        // Objects[2] = Instantiate(Prefab, this.transform.position, Quaternion.identity);
-        // Objects[2].transform.position = new Vector3(3, 1, 0);
-        // Objects[2].transform.SetParent(this.transform);
-        // Objects[2].GetComponent<Rigidbody>().mass = 1;
-
-        // Objects[3] = Instantiate(Prefab, this.transform.position, Quaternion.identity);
-        // Objects[3].transform.position = new Vector3(3, 3, 0);
-        // Objects[3].transform.SetParent(this.transform);
-        // Objects[3].GetComponent<Rigidbody>().mass = 1;
-
-        // for (int i = 0; i < Sources; i++)
+        // for (int j = 0; j < ObjectNum; j++)
         // {
-        //     int sourcesObjectsNum = Random.Range(0, ObjectNum);
-        //     for (int j = 0; j < sourcesObjectsNum; j++)
+        //     var obj = Instantiate(Prefab, this.transform.position, Quaternion.identity);
+        //     // Objects[j] = Instantiate(Prefab, this.transform.position, Quaternion.identity);
+        //     // Objects[j].transform.position += Random.insideUnitSphere * Radius;
+
+        //     bool isUnique;
+        //     Vector3 position;
+        //     do
         //     {
-        //         GameObject obj = Instantiate(Prefab, sourcePositions[i], Quaternion.identity);
-        //         obj.transform.position += Random.insideUnitSphere * Radius;
-        //         obj.transform.SetParent(this.transform);
-        //         float mass = Random.Range(1, 100);
-        //         obj.GetComponent<Rigidbody>().mass = mass;
-        //     }
-        // }
+        //         isUnique = true;
+        //         var randomPosition2D = Random.insideUnitCircle * Radius;
+        //         position = new Vector3(randomPosition2D.x, randomPosition2D.y, 0);
+        //         foreach (var item in Objects)
+        //         {
+        //             var distance = (item.transform.position - position).magnitude;
+        //             if (distance < 1) isUnique = false;
+        //         }
+        //     } while (!isUnique);
 
-        // for (int i = 0; i < ObjectNum; i++)
-        // {
-        //     Objects[i].GetComponent<Orbit>().enabled = true;
-        // }
 
-        // gameObject.GetComponent<MassiveObject>().enabled = true;
-        Destroy(this);
-        // //this.GetComponent<MassiveObject>().enabled = true;
+
+        // Objects[j].transform.position = new Vector3(randomPosition2D.x, 0, randomPosition2D.y);
+        // Objects[j].transform.position = new Vector3(randomPosition2D.x, randomPosition2D.y, 0);
+        // obj.transform.position = new Vector3(randomPosition2D.x, randomPosition2D.y, 0);
+        //obj.transform.position = position;
+
+        // Vector2 rand = Random.insideUnitCircle;
+        // Vector2 circlePoints = (rand * Radius) + (rand * 5);
+        // Objects[j].transform.position += new Vector3(circlePoints.x, 0, circlePoints.y);
+
+        //         Vector3 pos = Random.insideUnitSphere * Radius;
+        //         if (!IsRegularShape) pos += Random.insideUnitSphere * Random.Range(0, Radius);
+        //         Objects[j].transform.position += pos;
+
+        //         //Vector2 circlePoints = Random.insideUnitCircle;
+        //         //circlePoints += circlePoints.normalized;
+        //         //if (!IsRegularShape) circlePoints += Random.insideUnitCircle * Random.Range(0, 0.4f * Radius);
+        //         //Objects[j].transform.position += new Vector3(circlePoints.x, 0, circlePoints.y) * Radius;
+
+        //         //Objects[j].transform.position += new Vector3(circlePoints.x, (0.01f * Random.Range(-1, 1)), circlePoints.y) * Radius;
+        //         //Objects[j].transform.position += new Vector3(circlePoints.x, (0.01f * j), circlePoints.y) * Radius;
+
+        //obj.transform.SetParent(this.transform);
+        // float mass = Random.Range(1, 100);
+        //         //float mass = Random.Range(1, 10);
+        // float mass = 1;
+        // obj.GetComponent<Rigidbody>().mass = mass;
+        // Objects.Add(obj);
+        //         //Objects[j].transform.localScale = Vector3.Lerp(new Vector3(0.01f, 0.01f, 0.01f), new Vector3(0.1f, 0.1f, 0.1f), ((mass - 10) / 290));
+        //         //Objects[j].transform.localScale = Vector3.Lerp(new Vector3(0.01f, 0.01f, 0.01f), new Vector3(0.1f, 0.1f, 0.1f), ((mass - 1) / 10));
+
+        //         float r = Mathf.Pow(mass / (4.18f * 2333), 1f / 3f) * 2;
+        //         Objects[j].transform.localScale = new Vector3(r, r, r);
+        //         //Objects[j].transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        // Destroy(this);
+    }
+    // }
+
+    // Objects[0] = Instantiate(Prefab, this.transform.position, Quaternion.identity);
+    // Objects[0].transform.position = new Vector3(1, 1, 0);
+    // Objects[0].transform.SetParent(this.transform);
+    // Objects[0].GetComponent<Rigidbody>().mass = 1;
+
+    // Objects[1] = Instantiate(Prefab, this.transform.position, Quaternion.identity);
+    // Objects[1].transform.position = new Vector3(1, 3, 0);
+    // Objects[1].transform.SetParent(this.transform);
+    // Objects[1].GetComponent<Rigidbody>().mass = 1;
+
+    // Objects[2] = Instantiate(Prefab, this.transform.position, Quaternion.identity);
+    // Objects[2].transform.position = new Vector3(3, 1, 0);
+    // Objects[2].transform.SetParent(this.transform);
+    // Objects[2].GetComponent<Rigidbody>().mass = 1;
+
+    // Objects[3] = Instantiate(Prefab, this.transform.position, Quaternion.identity);
+    // Objects[3].transform.position = new Vector3(3, 3, 0);
+    // Objects[3].transform.SetParent(this.transform);
+    // Objects[3].GetComponent<Rigidbody>().mass = 1;
+
+    // for (int i = 0; i < Sources; i++)
+    // {
+    //     int sourcesObjectsNum = Random.Range(0, ObjectNum);
+    //     for (int j = 0; j < sourcesObjectsNum; j++)
+    //     {
+    //         GameObject obj = Instantiate(Prefab, sourcePositions[i], Quaternion.identity);
+    //         obj.transform.position += Random.insideUnitSphere * Radius;
+    //         obj.transform.SetParent(this.transform);
+    //         float mass = Random.Range(1, 100);
+    //         obj.GetComponent<Rigidbody>().mass = mass;
+    //     }
+    // }
+
+    // for (int i = 0; i < ObjectNum; i++)
+    // {
+    //     Objects[i].GetComponent<Orbit>().enabled = true;
+    // }
+
+    // gameObject.GetComponent<MassiveObject>().enabled = true;
+    // //this.GetComponent<MassiveObject>().enabled = true;
+
+    private void SquarePatternPositionGenerator()
+    {
+        // int objectsInRow = (int)System.Math.Floor(System.Math.Sqrt(this.ObjectNum));
+        int objectsInRow = (int)Mathf.Floor(Mathf.Sqrt(this.ObjectNum));
+        var step = this.Radius / (objectsInRow + 1);
+        var startPos = new Vector2(gameObject.transform.position.x - (this.Radius / 2) + step, gameObject.transform.position.y - (this.Radius / 2) + step);
+
+        for (int i = 0; i < objectsInRow; i++)
+        {
+            for (int j = 0; j < objectsInRow; j++)
+            {
+                var position = new Vector2(startPos.x + step * i, startPos.y + step * j);
+                var obj = Instantiate(Prefab, position, Quaternion.identity);
+                obj.transform.SetParent(this.transform);
+                float mass = UnityEngine.Random.Range(100f, 1000f);
+                obj.GetComponent<Rigidbody2D>().mass = mass;
+                obj.name = $"Crcle-{i * objectsInRow + j}";
+            }
+        }
     }
 
     void Update()

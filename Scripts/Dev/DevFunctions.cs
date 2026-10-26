@@ -26,9 +26,9 @@ public sealed class DevFunctions : MonoBehaviour
 
     public void CalculateBigObjects()
     {
-        for (int i = 0; i < GravityManager.Objects.Count; i++)
+        for (int i = 0; i < GravityManager2D.Objects.Count; i++)
         {
-            RaycastHit[] hits = Physics.SphereCastAll(GravityManager.Objects[i].position, 1.5f, Vector3.one);
+            RaycastHit[] hits = Physics.SphereCastAll(GravityManager2D.Objects[i].position, 1.5f, Vector3.one);
             if (hits.Length > 3)
             {
                 GameObject obj = hits[0].transform.gameObject;
